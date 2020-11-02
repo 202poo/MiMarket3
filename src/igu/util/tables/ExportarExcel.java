@@ -57,9 +57,8 @@ public class ExportarExcel {
                         try {
                             celda.setCellValue(Float.parseFloat((String) t.getValueAt(f, c)));
                         } catch (NumberFormatException e1) {
-                            celda.setCellValue(String.valueOf(t.getValueAt(f, c))); //.replaceAll(",", "")
+                            celda.setCellValue(String.valueOf(t.getValueAt(f, c)));
                         }*/
- /*
                         if (t.getValueAt(f, c) instanceof Double) {
                             celda.setCellValue(Double.parseDouble("" + t.getValueAt(f, c)));
                         } else if (t.getValueAt(f, c) instanceof Float) {
@@ -69,13 +68,6 @@ public class ExportarExcel {
                         } else {
                             //System.out.println("otro: " + t.getValueAt(f, c));
                             celda.setCellValue(String.valueOf(t.getValueAt(f, c)));
-                        }*/
-                       // double gr = 0;
-                        try {
-                            celda.setCellValue( Double.parseDouble( ((String) t.getValueAt(f, c)).replaceAll(",", "")   )); //.replaceAll(",", "")
-                           // gr = Double.parseDouble(((String) t.getValueAt(f, c)).replaceAll(",", "") + "");
-                        } catch (NumberFormatException nfe) {
-                            celda.setCellValue(String.valueOf(t.getValueAt(f, c))); //.replaceAll(",", "")
                         }
                     }
                 }

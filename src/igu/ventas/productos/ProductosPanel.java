@@ -1,6 +1,5 @@
 package igu.ventas.productos;
 
-import igu.ventas.productos.*;
 import data.ProductoData;
 import entities.Producto;
 
