@@ -5,7 +5,7 @@
  */
 package igu.ventas;
 
-import borrador.igu.compras.*;
+
 import igu.ChangePanel;
 import igu.ventas.clientes.ClientesPanel;
 import igu.ventas.ventas.VentasPanel;
