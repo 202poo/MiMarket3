@@ -1,8 +1,7 @@
 package igu.ventas.productos;
 
-import igu.ventas.clientes.*;
-import data.ClienteData;
-import entities.Cliente;
+import data.ProductoData;
+import entities.Producto;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -13,37 +12,37 @@ import javax.swing.table.AbstractTableModel;
  */
 public class ProductosTableModel extends AbstractTableModel {
 
-    private List<Cliente> lis = new ArrayList();
-    private String[] columns = {"#", "Nombres", "Información adicional"};
+    private List<Producto> lis = new ArrayList();
+    private String[] columns = {"#", "Nombres", "Detalle"};
     private Class[] columnsType = {Integer.class, String.class, String.class};
 
     public ProductosTableModel() {
-        lis = ClienteData.list("");
+        lis = ProductoData.list("");
     }
 
     public ProductosTableModel(String filter) {
 
-        lis = ClienteData.list(filter);
+        lis = ProductoData.list(filter);
     }
 
-   // public List<Cliente> getRegistros() {
+   // public List<Producto> getRegistros() {
   //      return CienteData.listCmb("");
    // }
 
-    // public List<Cliente> getlist(String filter) {
+    // public List<Producto> getlist(String filter) {
     //    lis = CienteData.list(filter);
     //    return lis;
     // }
     @Override
     public Object getValueAt(int row, int column) {
-        Cliente d = (Cliente) lis.get(row);
+        Producto d = (Producto) lis.get(row);
         switch (column) {
             case 0:
                 return row + 1;
             case 1:
                 return d.getNombres();
             case 2:
-                return d.getInfoadic();
+                return d.getDetalle();
             default:
                 return null;
         }
@@ -52,7 +51,7 @@ public class ProductosTableModel extends AbstractTableModel {
     /*
     @Override
     public void setValueAt(Object valor, int row, int column) {
-        Cliente d = (Cliente) lis.get(row);
+        Producto d = (Producto) lis.get(row);
         switch (column) {
             
            // case 0:
@@ -71,7 +70,7 @@ public class ProductosTableModel extends AbstractTableModel {
                 d.setNombres("" + valor);
                 break;
             case 2:
-                d.setInfoadic("" + valor);
+                d.setDetalle("" + valor);
                 break;
 
         }
@@ -81,7 +80,7 @@ public class ProductosTableModel extends AbstractTableModel {
      */
     @Override
     public boolean isCellEditable(int row, int column) {
-        //Cliente c = (Cliente) lis.get(row);
+        //Producto c = (Producto) lis.get(row);
         if (column >= 0 && column != 0) {
             //return true;
         }
@@ -108,7 +107,7 @@ public class ProductosTableModel extends AbstractTableModel {
         return columns.length;
     }
 
-    public void addRow(Cliente d) { // con db no se usa
+    public void addRow(Producto d) { // con db no se usa
         this.lis.add(d);
         //this.fireTableDataChanged();
         this.fireTableRowsInserted(lis.size(), lis.size());

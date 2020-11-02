@@ -1,8 +1,8 @@
 package igu.ventas.productos;
 
-import igu.ventas.clientes.*;
-import data.ClienteData;
-import entities.Cliente;
+import igu.ventas.productos.*;
+import data.ProductoData;
+import entities.Producto;
 
 import igu.util.tables.ExportarExcel;
 import java.io.IOException;
@@ -19,7 +19,7 @@ import util.MsgPanel;
  */
 public class ProductosPanel extends javax.swing.JPanel {
 
-    ClientesTableModel clientesTableModel;
+    ProductosTableModel productosTableModel;
 
     public ProductosPanel() {
         initComponents();
@@ -27,8 +27,8 @@ public class ProductosPanel extends javax.swing.JPanel {
         //table.setDefaultRenderer(Object.class, new EstiloTablaRenderer());
         table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         resetForm();
-        clientesTableModel = new ClientesTableModel();
-        paintTable(clientesTableModel);
+        productosTableModel = new ProductosTableModel();
+        paintTable(productosTableModel);
     }
 
     private void resetForm() {
@@ -42,8 +42,8 @@ public class ProductosPanel extends javax.swing.JPanel {
         MsgPanel.error("");
     }
 
-    private void paintTable(ClientesTableModel tableModel) {
-        this.clientesTableModel = tableModel;
+    private void paintTable(ProductosTableModel tableModel) {
+        this.productosTableModel = tableModel;
         table.setModel(tableModel);
         table.getColumnModel().getColumn(0).setMaxWidth(35);
         //   table.getColumnModel().getColumn(0).setCellRenderer(new TableCellFormatter(null)); //TableCellFormatter("#,##0.0000")
@@ -51,12 +51,12 @@ public class ProductosPanel extends javax.swing.JPanel {
 
     private void paintForm() {
         if (table.getSelectedRow() != -1) {
-            Cliente filax = (Cliente) clientesTableModel.getRow(table.getSelectedRow());
-            Cliente d = ClienteData.getByPId(filax.getId());
+            Producto filax = (Producto) productosTableModel.getRow(table.getSelectedRow());
+            Producto d = ProductoData.getByPId(filax.getId());
             nombres.setText(d.getNombres());
             nombres.setBorder(new LineBorder(new java.awt.Color(0, 0, 0), 1));
 
-            infoadic.setText(d.getInfoadic());
+            infoadic.setText(d.getDetalle());
             System.out.printf("getId:%d getSelectedRow:%d \n", d.getId(), table.getSelectedRow());
 
             guardarButton.setText("MODIFICAR");
@@ -427,18 +427,18 @@ public class ProductosPanel extends javax.swing.JPanel {
             MsgPanel.error("Nombre es requerido", true);
 
         } else {
-            Cliente s = new Cliente();
+            Producto s = new Producto();
             s.setNombres(nombres.getText());
-            s.setInfoadic(infoadic.getText());
+            s.setDetalle(infoadic.getText());
             if (table.getSelectedRow() != -1) {// ha seleccionado, update
                 try {
-                    Cliente fila = (Cliente) clientesTableModel.getRow(table.getSelectedRow());
+                    Producto fila = (Producto) productosTableModel.getRow(table.getSelectedRow());
                     s.setId(fila.getId());
                     System.out.println("id:" + s.getId());
                     if (s.getId() > 0) {
-                        int returnId = ClienteData.update(s);
+                        int returnId = ProductoData.update(s);
                         if (returnId != 0) {
-                            paintTable(new ClientesTableModel());
+                            paintTable(new ProductosTableModel());
                             resetForm();
                             MsgPanel.success(" Se ha modificado a:" + s.getNombres());
                         }
@@ -448,9 +448,9 @@ public class ProductosPanel extends javax.swing.JPanel {
                 }
             } else { // sin seleccionar, insert
                 try {
-                    int returnId = ClienteData.create(s);
+                    int returnId = ProductoData.create(s);
                     if (returnId != 0) {
-                        paintTable(new ClientesTableModel());
+                        paintTable(new ProductosTableModel());
                         // s.setId(returnId);//necesitamos subir el id, ya no
                         //tableModel.addRow(s);
                         resetForm();
@@ -487,13 +487,13 @@ public class ProductosPanel extends javax.swing.JPanel {
             try {
                 int opc = JOptionPane.showConfirmDialog(this, "¿Realmente desea eliminar?", "Quitar", JOptionPane.YES_NO_OPTION);
                 if (opc == JOptionPane.OK_OPTION) {
-                    Cliente fila = (Cliente) clientesTableModel.getRow(table.getSelectedRow());
+                    Producto fila = (Producto) productosTableModel.getRow(table.getSelectedRow());
                     System.out.printf("eliminarButtonActionPerformed getId:%d getSelectedRow:%d \n", fila.getId(), table.getSelectedRow());
 
-                    int opcion = ClienteData.delete(fila.getId());
+                    int opcion = ProductoData.delete(fila.getId());
                     if (opcion != 0) {
                         //tableModel.removeRow(table.getSelectedRow());
-                        paintTable(new ClientesTableModel());
+                        paintTable(new ProductosTableModel());
                         resetForm();
                         MsgPanel.success("Se ha eliminado a:" + fila.getNombres());
                     }
@@ -508,7 +508,7 @@ public class ProductosPanel extends javax.swing.JPanel {
 
     private void buscarFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscarFieldKeyReleased
         // TODO add your handling code here:
-        ClientesTableModel tableModel = new ClientesTableModel(buscarField.getText());
+        ProductosTableModel tableModel = new ProductosTableModel(buscarField.getText());
         paintTable(tableModel);
 
     }//GEN-LAST:event_buscarFieldKeyReleased

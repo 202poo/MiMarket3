@@ -8,6 +8,7 @@ package igu.ventas;
 
 import igu.ChangePanel;
 import igu.ventas.clientes.ClientesPanel;
+import igu.ventas.productos.ProductosPanel;
 import igu.ventas.ventas.VentasPanel;
 import java.awt.Color;
 
@@ -289,8 +290,8 @@ public class VentasMainPanel extends javax.swing.JPanel {
 
     private void paramsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paramsButtonActionPerformed
         // TODO add your handling code here:
-        /*
-        new ChangePanel(workPanel, new ParametrosCompraPanel());
+        
+        new ChangePanel(workPanel, new ProductosPanel());
         
         if (this.paramsButton.isSelected()) {
             this.paramsButton.setColorNormal(new Color(204, 204, 204));
@@ -302,7 +303,7 @@ public class VentasMainPanel extends javax.swing.JPanel {
 
         } else {
             this.paramsButton.setColorNormal(new Color(239, 238, 244));
-        }*/
+        }
         
     }//GEN-LAST:event_paramsButtonActionPerformed
 
