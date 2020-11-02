@@ -83,7 +83,7 @@ public class ClienteData {
 
     public static List<Cliente> listCmb(String filter) {
         List<Cliente> ls = new ArrayList();
-        ls.add(new Cliente("Seleccione..."));
+        //ls.add(new Cliente("Seleccione..."));
         ls.addAll(list(filter));
         return ls;
     }

@@ -9,12 +9,7 @@ public class Cliente {
     private int id;
     private String nombres;
     private String infoadic;
-    public Cliente() {
-    }
-    public Cliente(String nombres) {
-        this.nombres= nombres;
-       
-    }
+    
     public String toString() {
         return nombres;
     }
