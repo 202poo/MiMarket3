@@ -2,8 +2,11 @@ package igu.ventas.productos;
 
 import data.ProductoData;
 import entities.Producto;
+import igu.util.tables.EstiloTablaHeaderXX;
+import igu.util.tables.EstiloTablaRendererXX;
 
 import igu.util.tables.ExportarExcel;
+import igu.util.tables.TableCellNumber;
 import java.io.IOException;
 import java.util.logging.Level;
 import javax.swing.JOptionPane;
@@ -22,8 +25,8 @@ public class ProductosPanel extends javax.swing.JPanel {
 
     public ProductosPanel() {
         initComponents();
-        //table.getTableHeader().setDefaultRenderer(new EstiloTablaHeader());
-        //table.setDefaultRenderer(Object.class, new EstiloTablaRenderer());
+        table.getTableHeader().setDefaultRenderer(new EstiloTablaHeaderXX());
+        table.setDefaultRenderer(Object.class, new EstiloTablaRendererXX());
         table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         resetForm();
         productosTableModel = new ProductosTableModel();
@@ -35,7 +38,7 @@ public class ProductosPanel extends javax.swing.JPanel {
         nombres.setText("");
         nombres.setBorder(new LineBorder(new java.awt.Color(0, 0, 0), 1));
 
-        infoadic.setText("");
+        detalle.setText("");
         guardarButton.setText("REGISTRAR");
         guardarButton.setToolTipText("REGISTRAR");
         MsgPanel.error("");
@@ -45,7 +48,7 @@ public class ProductosPanel extends javax.swing.JPanel {
         this.productosTableModel = tableModel;
         table.setModel(tableModel);
         table.getColumnModel().getColumn(0).setMaxWidth(35);
-        //   table.getColumnModel().getColumn(0).setCellRenderer(new TableCellFormatter(null)); //TableCellFormatter("#,##0.0000")
+        //table.getColumnModel().getColumn(0).setCellRenderer(new TableCellNumber("#,##0.0000")); //TableCellFormatter("#,##0.0000")
     }
 
     private void paintForm() {
@@ -55,7 +58,7 @@ public class ProductosPanel extends javax.swing.JPanel {
             nombres.setText(d.getNombres());
             nombres.setBorder(new LineBorder(new java.awt.Color(0, 0, 0), 1));
 
-            infoadic.setText(d.getDetalle());
+            detalle.setText(d.getDetalle());
             System.out.printf("getId:%d getSelectedRow:%d \n", d.getId(), table.getSelectedRow());
 
             guardarButton.setText("MODIFICAR");
@@ -96,7 +99,7 @@ public class ProductosPanel extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         msgPanel1 = new util.MsgPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        infoadic = new javax.swing.JTextArea();
+        detalle = new javax.swing.JTextArea();
         jPanel5 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -232,14 +235,14 @@ public class ProductosPanel extends javax.swing.JPanel {
         });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel3.setText("Info adic:");
+        jLabel3.setText("Detalle: ");
 
         msgPanel1.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        infoadic.setColumns(20);
-        infoadic.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        infoadic.setRows(5);
-        jScrollPane1.setViewportView(infoadic);
+        detalle.setColumns(20);
+        detalle.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        detalle.setRows(5);
+        jScrollPane1.setViewportView(detalle);
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -428,7 +431,7 @@ public class ProductosPanel extends javax.swing.JPanel {
         } else {
             Producto s = new Producto();
             s.setNombres(nombres.getText());
-            s.setDetalle(infoadic.getText());
+            s.setDetalle(detalle.getText());
             if (table.getSelectedRow() != -1) {// ha seleccionado, update
                 try {
                     Producto fila = (Producto) productosTableModel.getRow(table.getSelectedRow());
@@ -537,10 +540,10 @@ public class ProductosPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField buscarField;
+    private javax.swing.JTextArea detalle;
     private igu.util.buttons.TheButton eliminarButton;
     private javax.swing.JPanel footFormPanel;
     private igu.util.buttons.TheButton guardarButton;
-    private javax.swing.JTextArea infoadic;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

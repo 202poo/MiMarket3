@@ -33,7 +33,7 @@ public class EstiloTablaHeaderXX implements TableCellRenderer {
         jcomponent.setOpaque(true);
          jcomponent.setBackground( new Color(58, 159, 171) );
         //jcomponent.setBackground(new Color(65, 65, 65));
-        jcomponent.setToolTipText("Tabla ");
+        //jcomponent.setToolTipText("Tabla ");
         jcomponent.setForeground(Color.white);
 
         return jcomponent;
