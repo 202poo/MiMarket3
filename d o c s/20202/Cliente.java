@@ -1,13 +1,14 @@
-package modelo.Ventas;
+package ventas.entities;
 
 /**
  * @author Asullom
  * @version 1.0
- * @created 26-Jun-2020 12:25:08 p.m.
+ * @created 05-Nov-2020 9:01:36 am
  */
 public class Cliente {
 
-	private String nombre;
+	private String infoadic;
+	private String nombres;
 
 	public Cliente(){
 
