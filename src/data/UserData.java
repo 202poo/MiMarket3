@@ -24,7 +24,7 @@ public class UserData {
     public static int create(User d) {
         int rsId = 0;
         String[] returns = {"id"};
-        String sql = "INSERT INTO user(rol, pin, username) "
+        String sql = "INSERT INTO users(rol, pin, username) "
                 + "VALUES(?,?,?)";
         int i = 0;
         try {
@@ -36,7 +36,7 @@ public class UserData {
             rsId = ps.executeUpdate();// 0 no o 1 si commit
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
-                    rsId = rs.getInt(1); // select tk, max(id)  from user
+                    rsId = rs.getInt(1); // select tk, max(id)  from users
                     //System.out.println("rs.getInt(rsId): " + rsId);
                 }
                 rs.close();
@@ -51,7 +51,7 @@ public class UserData {
     public static int update(User d) {
         System.out.println("actualizar d.getId(): " + d.getId());
         int comit = 0;
-        String sql = "UPDATE user SET "
+        String sql = "UPDATE users SET "
                 + "rol=?, "
                 + "pin=?, "
                 + "username=? "
@@ -72,7 +72,7 @@ public class UserData {
 
     public static int delete(int id) throws Exception {
         int comit = 0;
-        String sql = "DELETE FROM user WHERE id = ?";
+        String sql = "DELETE FROM users WHERE id = ?";
         try {
             ps = cn.prepareStatement(sql);
             ps.setInt(1, id);
@@ -97,9 +97,9 @@ public class UserData {
         List<User> ls = new ArrayList();
         String sql = "";
         if (filtert.equals("")) {
-            sql = "SELECT * FROM user ORDER BY id";
+            sql = "SELECT * FROM users ORDER BY id";
         } else {
-            sql = "SELECT * FROM user WHERE (id LIKE'" + filter + "%' OR "
+            sql = "SELECT * FROM users WHERE (id LIKE'" + filter + "%' OR "
                     + "rol LIKE'" + filter + "%' OR pin LIKE'" + filter + "%' OR "
                     + "id LIKE'" + filter + "%') "
                     + "ORDER BY id";
@@ -124,7 +124,7 @@ public class UserData {
     public static User getByPId(int id) {
         User d = new User();
 
-        String sql = "SELECT * FROM user WHERE id = ? ";
+        String sql = "SELECT * FROM users WHERE id = ? ";
         int i = 0;
         try {
             ps = cn.prepareStatement(sql);
@@ -147,7 +147,7 @@ public class UserData {
     public static User getByPinAndRol(String pin, String rol) {
         User d = new User();
 
-        String sql = "SELECT * FROM user WHERE pin = ? and  rol = ? ";
+        String sql = "SELECT * FROM users WHERE pin = ? and  rol = ? ";
         int i = 0;
         try {
             ps = cn.prepareStatement(sql);

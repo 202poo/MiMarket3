@@ -13,7 +13,7 @@ import javax.swing.table.AbstractTableModel;
 public class ProductosTableModel extends AbstractTableModel {
 
     private List<Producto> lis = new ArrayList();
-    private String[] columns = {"#", "Nombres", "Detalle"};
+    private String[] columns = {"#", "Nombre", "Detalle"};
     private Class[] columnsType = {Integer.class, String.class, String.class};
 
     public ProductosTableModel() {
@@ -40,7 +40,7 @@ public class ProductosTableModel extends AbstractTableModel {
             case 0:
                 return row + 1;
             case 1:
-                return d.getNombres();
+                return d.getNombre();
             case 2:
                 return d.getDetalle();
             default:
@@ -67,7 +67,7 @@ public class ProductosTableModel extends AbstractTableModel {
              //   break;
              
             case 1:
-                d.setNombres("" + valor);
+                d.setNombre("" + valor);
                 break;
             case 2:
                 d.setDetalle("" + valor);

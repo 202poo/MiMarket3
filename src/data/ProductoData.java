@@ -24,12 +24,12 @@ public class ProductoData {
     public static int create(Producto d) {
         int rsId = 0;
         String[] returns = {"id"};
-        String sql = "INSERT INTO productos(nombres, detalle) "
+        String sql = "INSERT INTO productos(nombre, detalle) "
                 + "VALUES(?,?)";
         int i = 0;
         try {
             ps = cn.prepareStatement(sql, returns);
-            ps.setString(++i, d.getNombres());
+            ps.setString(++i, d.getNombre());
             ps.setString(++i, d.getDetalle());
             rsId = ps.executeUpdate();// 0 no o 1 si commit
             try (ResultSet rs = ps.getGeneratedKeys()) {
@@ -50,13 +50,13 @@ public class ProductoData {
         System.out.println("actualizar d.getId(): " + d.getId());
         int comit = 0;
         String sql = "UPDATE productos SET "
-                + "nombres=?, "
+                + "nombre=?, "
                 + "detalle=? "
                 + "WHERE id=?";
         int i = 0;
         try {
             ps = cn.prepareStatement(sql);
-            ps.setString(++i, d.getNombres());
+            ps.setString(++i, d.getNombre());
             ps.setString(++i, d.getDetalle());
             ps.setInt(++i, d.getId());
             comit = ps.executeUpdate();
@@ -104,9 +104,9 @@ public class ProductoData {
             sql = "SELECT * FROM productos ORDER BY id";
         } else {
             sql = "SELECT * FROM productos WHERE (id LIKE'" + filter + "%' OR "
-                    + "nombres LIKE'" + filter + "%' OR detalle LIKE'" + filter + "%' OR "
+                    + "nombre LIKE'" + filter + "%' OR detalle LIKE'" + filter + "%' OR "
                     + "id LIKE'" + filter + "%') "
-                    + "ORDER BY nombres";
+                    + "ORDER BY nombre";
         }
         try {
             Statement st = cn.createStatement();
@@ -114,7 +114,7 @@ public class ProductoData {
             while (rs.next()) {
                 Producto d = new Producto();
                 d.setId(rs.getInt("id"));
-                d.setNombres(rs.getString("nombres"));
+                d.setNombre(rs.getString("nombre"));
                 d.setDetalle(rs.getString("detalle"));
                 ls.add(d);
             }
@@ -135,7 +135,7 @@ public class ProductoData {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 d.setId(rs.getInt("id"));
-                d.setNombres(rs.getString("nombres"));
+                d.setNombre(rs.getString("nombre"));
                 d.setDetalle(rs.getString("detalle"));
             }
         } catch (SQLException ex) {

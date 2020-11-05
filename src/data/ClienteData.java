@@ -24,7 +24,7 @@ public class ClienteData {
     public static int create(Cliente d) {
         int rsId = 0;
         String[] returns = {"id"};
-        String sql = "INSERT INTO cliente(nombres, infoadic) "
+        String sql = "INSERT INTO clientes(nombres, infoadic) "
                 + "VALUES(?,?)";
         int i = 0;
         try {
@@ -34,7 +34,7 @@ public class ClienteData {
             rsId = ps.executeUpdate();// 0 no o 1 si commit
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
-                    rsId = rs.getInt(1); // select tk, max(id)  from cliente
+                    rsId = rs.getInt(1); // select tk, max(id)  from clientes
                     //System.out.println("rs.getInt(rsId): " + rsId);
                 }
                 rs.close();
@@ -49,7 +49,7 @@ public class ClienteData {
     public static int update(Cliente d) {
         System.out.println("actualizar d.getId(): " + d.getId());
         int comit = 0;
-        String sql = "UPDATE cliente SET "
+        String sql = "UPDATE clientes SET "
                 + "nombres=?, "
                 + "infoadic=? "
                 + "WHERE id=?";
@@ -68,7 +68,7 @@ public class ClienteData {
 
     public static int delete(int id) throws Exception {
         int comit = 0;
-        String sql = "DELETE FROM cliente WHERE id = ?";
+        String sql = "DELETE FROM clientes WHERE id = ?";
         try {
             ps = cn.prepareStatement(sql);
             ps.setInt(1, id);
@@ -101,9 +101,9 @@ public class ClienteData {
 
         String sql = "";
         if (filtert.equals("")) {
-            sql = "SELECT * FROM cliente ORDER BY id";
+            sql = "SELECT * FROM clientes ORDER BY id";
         } else {
-            sql = "SELECT * FROM cliente WHERE (id LIKE'" + filter + "%' OR "
+            sql = "SELECT * FROM clientes WHERE (id LIKE'" + filter + "%' OR "
                     + "nombres LIKE'" + filter + "%' OR infoadic LIKE'" + filter + "%' OR "
                     + "id LIKE'" + filter + "%') "
                     + "ORDER BY nombres";
@@ -127,7 +127,7 @@ public class ClienteData {
     public static Cliente getByPId(int id) {
         Cliente d = new Cliente();
 
-        String sql = "SELECT * FROM cliente WHERE id = ? ";
+        String sql = "SELECT * FROM clientes WHERE id = ? ";
         int i = 0;
         try {
             ps = cn.prepareStatement(sql);

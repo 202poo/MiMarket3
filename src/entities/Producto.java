@@ -7,11 +7,11 @@ package entities;
 public class Producto {
 
     private int id;
-    private String nombres;
+    private String nombre;
     private String detalle;
     
     public String toString() {
-        return nombres;
+        return nombre;
     }
 
     public int getId() {
@@ -22,12 +22,12 @@ public class Producto {
         this.id = id;
     }
 
-    public String getNombres() {
-        return nombres;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombres(String nombres) {
-        this.nombres = nombres;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDetalle() {
@@ -37,5 +37,5 @@ public class Producto {
     public void setDetalle(String detalle) {
         this.detalle = detalle;
     }
-    
+
 }

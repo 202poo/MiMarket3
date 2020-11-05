@@ -55,7 +55,7 @@ public class ProductosPanel extends javax.swing.JPanel {
         if (table.getSelectedRow() != -1) {
             Producto filax = (Producto) productosTableModel.getRow(table.getSelectedRow());
             Producto d = ProductoData.getByPId(filax.getId());
-            nombres.setText(d.getNombres());
+            nombres.setText(d.getNombre());
             nombres.setBorder(new LineBorder(new java.awt.Color(0, 0, 0), 1));
 
             detalle.setText(d.getDetalle());
@@ -100,6 +100,8 @@ public class ProductosPanel extends javax.swing.JPanel {
         msgPanel1 = new util.MsgPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         detalle = new javax.swing.JTextArea();
+        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jPanel5 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -244,6 +246,10 @@ public class ProductosPanel extends javax.swing.JPanel {
         detalle.setRows(5);
         jScrollPane1.setViewportView(detalle);
 
+        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+
+        jDateChooser1.setDateFormatString("d/M/y");
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -258,8 +264,14 @@ public class ProductosPanel extends javax.swing.JPanel {
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addContainerGap(33, Short.MAX_VALUE))
             .addComponent(msgPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel8Layout.setVerticalGroup(
@@ -274,6 +286,10 @@ public class ProductosPanel extends javax.swing.JPanel {
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -332,7 +348,7 @@ public class ProductosPanel extends javax.swing.JPanel {
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 649, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
@@ -430,7 +446,7 @@ public class ProductosPanel extends javax.swing.JPanel {
 
         } else {
             Producto s = new Producto();
-            s.setNombres(nombres.getText());
+            s.setNombre(nombres.getText());
             s.setDetalle(detalle.getText());
             if (table.getSelectedRow() != -1) {// ha seleccionado, update
                 try {
@@ -442,7 +458,7 @@ public class ProductosPanel extends javax.swing.JPanel {
                         if (returnId != 0) {
                             paintTable(new ProductosTableModel());
                             resetForm();
-                            MsgPanel.success(" Se ha modificado a:" + s.getNombres());
+                            MsgPanel.success(" Se ha modificado a:" + s.getNombre());
                         }
                     }
                 } catch (Exception ex) {
@@ -456,7 +472,7 @@ public class ProductosPanel extends javax.swing.JPanel {
                         // s.setId(returnId);//necesitamos subir el id, ya no
                         //tableModel.addRow(s);
                         resetForm();
-                        MsgPanel.success("Se ha registrado a:" + s.getNombres());
+                        MsgPanel.success("Se ha registrado a:" + s.getNombre());
                     }
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "No se puede insertar: " + ex.getMessage());
@@ -497,7 +513,7 @@ public class ProductosPanel extends javax.swing.JPanel {
                         //tableModel.removeRow(table.getSelectedRow());
                         paintTable(new ProductosTableModel());
                         resetForm();
-                        MsgPanel.success("Se ha eliminado a:" + fila.getNombres());
+                        MsgPanel.success("Se ha eliminado a:" + fila.getNombre());
                     }
                 }
             } catch (Exception ex) {
@@ -544,6 +560,8 @@ public class ProductosPanel extends javax.swing.JPanel {
     private igu.util.buttons.TheButton eliminarButton;
     private javax.swing.JPanel footFormPanel;
     private igu.util.buttons.TheButton guardarButton;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
