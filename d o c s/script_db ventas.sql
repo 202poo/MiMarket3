@@ -1,65 +1,42 @@
-
-CREATE TABLE IF NOT EXISTS user (
-	id		INTEGER PRIMARY KEY AUTOINCREMENT,
-	rol		INTEGER	NOT NULL,
-	username		TEXT	NOT NULL,
-    pin		TEXT	NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS producto (
-	id			INTEGER PRIMARY KEY AUTOINCREMENT,
-	nombres		TEXT	NOT NULL,
-    cod  		TEXT	NULL,
-    precio		REAL	NULL,
-    fecha_ven   datetime NULL,
-    date_created datetime default current_timestamp
-);
-
-
-CREATE TABLE IF NOT EXISTS cliente (
+CREATE TABLE IF NOT EXISTS clientes (
 	id			INTEGER PRIMARY KEY AUTOINCREMENT,
 	nombres		TEXT	NOT NULL,
     infoadic	TEXT	NULL
 );
 
-
-CREATE TABLE IF NOT EXISTS venta (
-	id			INTEGER PRIMARY KEY AUTOINCREMENT,
-	fecha		datetime	NOT NULL,
-    clie_id	    INTEGER		NOT	NULL,
-	clie_nom	TEXT			NULL,
-	total_base		REAL	NULL,
-	total_descto		REAL	NULL,
-	total_igv		REAL	NULL,
-	total_final		REAL	NULL,
-	activo		INTEGER		default 1,
-
-	date_created datetime default current_timestamp,
-
-	FOREIGN KEY (clie_id) REFERENCES cliente (id) 
-	ON UPDATE RESTRICT  ON DELETE RESTRICT 
-);
-
-CREATE TABLE IF NOT EXISTS item (
+CREATE TABLE IF NOT EXISTS productos (
 	id			INTEGER PRIMARY KEY AUTOINCREMENT,
 	nombre		TEXT	NOT NULL,
-    precio		REAL	NULL
+    detalle		TEXT	NULL,
+    precio		REAL	NULL,
+    fecha_ven   datetime NULL,
+    date_created datetime default current_timestamp
 );
 
-CREATE TABLE IF NOT EXISTS venta_det (
+CREATE TABLE IF NOT EXISTS ventas (
 	id			INTEGER PRIMARY KEY AUTOINCREMENT,
-	comp_id	INTEGER		NOT	NULL,
-	item_id	INTEGER		NOT	NULL,
+	fecha		datetime	NOT NULL,
+    clie_id		INTEGER		NOT	NULL,
+	clie_nom	TEXT			NULL,
+	
+	activo		INTEGER		default 1,
+	FOREIGN KEY (clie_id) REFERENCES clientes (id) 
+	ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+
+CREATE TABLE IF NOT EXISTS venta_lineas (
+	id			INTEGER PRIMARY KEY AUTOINCREMENT,
+	venta_id	INTEGER		NOT	NULL,
+	prod_id		INTEGER		NOT	NULL,
+	descripcion	TEXT			NULL,
 	cant		REAL		NOT	NULL,
 	precio		REAL	NOT NULL,
-	igv		    REAL	 NULL,
 	descto		REAL	 NULL,
-	subtotal		REAL	 NULL, -- st=cant*precio- cant*descto + cant*igv
+	subtotal	REAL	 NULL, 
    
 	activo		INTEGER		default 1
-	-- ,FOREIGN KEY (comp_id) REFERENCES compra (id) 
-	-- ON UPDATE RESTRICT ON DELETE RESTRICT,
-	-- ,FOREIGN KEY (item_id) REFERENCES item (id) 
-	-- ON UPDATE RESTRICT ON DELETE RESTRICT
+	,FOREIGN KEY (venta_id) REFERENCES ventas (id) 
+	ON UPDATE RESTRICT ON DELETE RESTRICT
+	,FOREIGN KEY (prod_id) REFERENCES productos (id) 
+	ON UPDATE RESTRICT ON DELETE RESTRICT
 );
-
