@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS clientes (
 	id			INTEGER PRIMARY KEY AUTOINCREMENT,
 	nombres		TEXT	NOT NULL,
-    infoadic	TEXT	NULL
+    info_adic	TEXT	NULL
 );
 
 CREATE TABLE IF NOT EXISTS productos (

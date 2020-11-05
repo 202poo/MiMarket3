@@ -42,7 +42,7 @@ public class ClientesTableModel extends AbstractTableModel {
             case 1:
                 return d.getNombres();
             case 2:
-                return d.getInfoadic();
+                return d.getInfo_adic();
             default:
                 return null;
         }
@@ -70,7 +70,7 @@ public class ClientesTableModel extends AbstractTableModel {
                 d.setNombres("" + valor);
                 break;
             case 2:
-                d.setInfoadic("" + valor);
+                d.setInfo_adic("" + valor);
                 break;
 
         }

@@ -8,12 +8,11 @@ public class Cliente {
 
     private int id;
     private String nombres;
-    private String infoadic;
+    private String info_adic;
     
     public String toString() {
         return nombres;
     }
-    
 
     public int getId() {
         return id;
@@ -31,11 +30,13 @@ public class Cliente {
         this.nombres = nombres;
     }
 
-    public String getInfoadic() {
-        return infoadic;
+    public String getInfo_adic() {
+        return info_adic;
     }
 
-    public void setInfoadic(String infoadic) {
-        this.infoadic = infoadic;
+    public void setInfo_adic(String info_adic) {
+        this.info_adic = info_adic;
     }
+    
+
 }

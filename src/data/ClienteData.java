@@ -24,13 +24,13 @@ public class ClienteData {
     public static int create(Cliente d) {
         int rsId = 0;
         String[] returns = {"id"};
-        String sql = "INSERT INTO clientes(nombres, infoadic) "
+        String sql = "INSERT INTO clientes(nombres, info_adic) "
                 + "VALUES(?,?)";
         int i = 0;
         try {
             ps = cn.prepareStatement(sql, returns);
             ps.setString(++i, d.getNombres());
-            ps.setString(++i, d.getInfoadic());
+            ps.setString(++i, d.getInfo_adic());
             rsId = ps.executeUpdate();// 0 no o 1 si commit
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
@@ -51,13 +51,13 @@ public class ClienteData {
         int comit = 0;
         String sql = "UPDATE clientes SET "
                 + "nombres=?, "
-                + "infoadic=? "
+                + "info_adic=? "
                 + "WHERE id=?";
         int i = 0;
         try {
             ps = cn.prepareStatement(sql);
             ps.setString(++i, d.getNombres());
-            ps.setString(++i, d.getInfoadic());
+            ps.setString(++i, d.getInfo_adic());
             ps.setInt(++i, d.getId());
             comit = ps.executeUpdate();
         } catch (SQLException ex) {
@@ -104,7 +104,7 @@ public class ClienteData {
             sql = "SELECT * FROM clientes ORDER BY id";
         } else {
             sql = "SELECT * FROM clientes WHERE (id LIKE'" + filter + "%' OR "
-                    + "nombres LIKE'" + filter + "%' OR infoadic LIKE'" + filter + "%' OR "
+                    + "nombres LIKE'" + filter + "%' OR info_adic LIKE'" + filter + "%' OR "
                     + "id LIKE'" + filter + "%') "
                     + "ORDER BY nombres";
         }
@@ -115,7 +115,7 @@ public class ClienteData {
                 Cliente d = new Cliente();
                 d.setId(rs.getInt("id"));
                 d.setNombres(rs.getString("nombres"));
-                d.setInfoadic(rs.getString("infoadic"));
+                d.setInfo_adic(rs.getString("info_adic"));
                 ls.add(d);
             }
         } catch (SQLException ex) {
@@ -136,7 +136,7 @@ public class ClienteData {
             while (rs.next()) {
                 d.setId(rs.getInt("id"));
                 d.setNombres(rs.getString("nombres"));
-                d.setInfoadic(rs.getString("infoadic"));
+                d.setInfo_adic(rs.getString("info_adic"));
             }
         } catch (SQLException ex) {
             log.log(Level.SEVERE, "getByPId", ex);

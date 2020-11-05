@@ -55,7 +55,7 @@ public class ClientesPanel extends javax.swing.JPanel {
             nombres.setText(d.getNombres());
             nombres.setBorder(new LineBorder(new java.awt.Color(0, 0, 0), 1));
 
-            infoadic.setText(d.getInfoadic());
+            infoadic.setText(d.getInfo_adic());
             System.out.printf("getId:%d getSelectedRow:%d \n", d.getId(), table.getSelectedRow());
 
             guardarButton.setText("MODIFICAR");
@@ -428,7 +428,7 @@ public class ClientesPanel extends javax.swing.JPanel {
         } else {
             Cliente s = new Cliente();
             s.setNombres(nombres.getText());
-            s.setInfoadic(infoadic.getText());
+            s.setInfo_adic(infoadic.getText());
             if (table.getSelectedRow() != -1) {// ha seleccionado, update
                 try {
                     Cliente fila = (Cliente) clientesTableModel.getRow(table.getSelectedRow());
