@@ -8,7 +8,7 @@ import igu.util.tables.EstiloTablaRendererXX;
 import igu.util.tables.ExportarExcel;
 import igu.util.tables.TableCellNumber;
 import java.io.IOException;
-import java.sql.Date;
+import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
@@ -35,10 +35,7 @@ public class ProductosPanel extends javax.swing.JPanel {
         productosTableModel = new ProductosTableModel();
         paintTable(productosTableModel);
     }
-    private static java.sql.Date convert(java.util.Date uDate) {
-        java.sql.Date sDate = new java.sql.Date(uDate.getTime());
-        return sDate;
-    }
+    
 
     private void resetForm() {
         nombres.requestFocus();
@@ -68,6 +65,8 @@ public class ProductosPanel extends javax.swing.JPanel {
 
             detalle.setText(d.getDetalle());
             precio.setText(d.getPrecio()+"");
+            fecha_ven.setDate(d.getFecha_ven());
+            
             System.out.printf("getId:%d getSelectedRow:%d \n", d.getId(), table.getSelectedRow());
 
             guardarButton.setText("MODIFICAR");
@@ -481,7 +480,7 @@ public class ProductosPanel extends javax.swing.JPanel {
             System.out.println("fecha_ven.getDate(): " +fecha_ven.getDate());
             DateFormat df = new SimpleDateFormat("dd/MM/YYYY - hh:mm:ss");
             
-            s.setFecha_ven(convert( fecha_ven.getDate() ));
+            s.setFecha_ven( fecha_ven.getDate());
             
             if (table.getSelectedRow() != -1) {// ha seleccionado, update
                 try {

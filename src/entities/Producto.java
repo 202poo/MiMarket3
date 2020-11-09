@@ -1,6 +1,6 @@
 package entities;
 
-import java.sql.Date;
+import java.util.Date;
 
 
 /**
@@ -59,5 +59,6 @@ public class Producto {
         this.fecha_ven = fecha_ven;
     }
 
+    
 
 }

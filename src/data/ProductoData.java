@@ -2,14 +2,18 @@ package data;
 
 import entities.Producto;
 import java.sql.Connection;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import util.ErrorLogger;
 import java.util.logging.Level;
+import org.sqlite.SQLiteConfig;
 
 /**
  *
@@ -20,7 +24,15 @@ public class ProductoData {
     static Connection cn = Conn.connectSQLite();
     static PreparedStatement ps;
     static ErrorLogger log = new ErrorLogger(ProductoData.class.getName());
-
+    
+    static SimpleDateFormat df = new SimpleDateFormat("dd/MM/YYYY - hh:mm:ss");
+    static SimpleDateFormat sdf = new SimpleDateFormat(SQLiteConfig.DEFAULT_DATE_STRING_FORMAT);
+        
+    private static java.sql.Date convert(java.util.Date uDate) {
+        java.sql.Date sDate = new java.sql.Date(uDate.getTime());
+        return sDate;
+    }
+    
     public static int create(Producto d) {
         int rsId = 0;
         String[] returns = {"id"};
@@ -33,7 +45,7 @@ public class ProductoData {
             ps.setString(++i, d.getDetalle());
             ps.setDouble(++i, d.getPrecio());
             System.out.println("d.getFecha_ven(): " + d.getFecha_ven());
-            ps.setDate(++i, d.getFecha_ven() );
+            ps.setString(++i, sdf.format(  d.getFecha_ven()  ) );
             rsId = ps.executeUpdate();// 0 no o 1 si commit
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
@@ -55,7 +67,8 @@ public class ProductoData {
         String sql = "UPDATE productos SET "
                 + "nombre=?, "
                 + "detalle=?, "
-                + "precio=? "
+                + "precio=?, "
+                + "fecha_ven=? "
                 + "WHERE id=?";
         int i = 0;
         try {
@@ -63,6 +76,13 @@ public class ProductoData {
             ps.setString(++i, d.getNombre());
             ps.setString(++i, d.getDetalle());
             ps.setDouble(++i, d.getPrecio());
+            
+            
+            
+            System.out.println("u d.getFecha_ven(): " + d.getFecha_ven());
+            //System.out.println("u convert( d.getFecha_ven() ): " + convert( d.getFecha_ven() ));
+            //System.out.println("dateFormated date is : " + df.format( convert( d.getFecha_ven() ) ) );
+             ps.setString(++i, sdf.format(  d.getFecha_ven()  ) );
             
             ps.setInt(++i, d.getId());
             comit = ps.executeUpdate();
@@ -123,6 +143,10 @@ public class ProductoData {
                 d.setNombre(rs.getString("nombre"));
                 d.setDetalle(rs.getString("detalle"));
                 d.setPrecio(rs.getDouble("precio"));
+                try {
+                    d.setFecha_ven(sdf.parse(rs.getString("fecha_ven")));
+                } catch (Exception e) {
+                }
                 ls.add(d);
             }
         } catch (SQLException ex) {
@@ -145,6 +169,10 @@ public class ProductoData {
                 d.setNombre(rs.getString("nombre"));
                 d.setDetalle(rs.getString("detalle"));
                 d.setPrecio(rs.getDouble("precio"));
+                try {
+                    d.setFecha_ven(sdf.parse(rs.getString("fecha_ven")));
+                } catch (Exception e) {
+                }
             }
         } catch (SQLException ex) {
             log.log(Level.SEVERE, "getByPId", ex);
