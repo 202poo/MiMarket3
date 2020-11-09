@@ -8,6 +8,9 @@ import igu.util.tables.EstiloTablaRendererXX;
 import igu.util.tables.ExportarExcel;
 import igu.util.tables.TableCellNumber;
 import java.io.IOException;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
@@ -32,6 +35,10 @@ public class ProductosPanel extends javax.swing.JPanel {
         productosTableModel = new ProductosTableModel();
         paintTable(productosTableModel);
     }
+    private static java.sql.Date convert(java.util.Date uDate) {
+        java.sql.Date sDate = new java.sql.Date(uDate.getTime());
+        return sDate;
+    }
 
     private void resetForm() {
         nombres.requestFocus();
@@ -39,6 +46,7 @@ public class ProductosPanel extends javax.swing.JPanel {
         nombres.setBorder(new LineBorder(new java.awt.Color(0, 0, 0), 1));
 
         detalle.setText("");
+        precio.setText("");
         guardarButton.setText("REGISTRAR");
         guardarButton.setToolTipText("REGISTRAR");
         MsgPanel.error("");
@@ -59,6 +67,7 @@ public class ProductosPanel extends javax.swing.JPanel {
             nombres.setBorder(new LineBorder(new java.awt.Color(0, 0, 0), 1));
 
             detalle.setText(d.getDetalle());
+            precio.setText(d.getPrecio()+"");
             System.out.printf("getId:%d getSelectedRow:%d \n", d.getId(), table.getSelectedRow());
 
             guardarButton.setText("MODIFICAR");
@@ -100,8 +109,10 @@ public class ProductosPanel extends javax.swing.JPanel {
         msgPanel1 = new util.MsgPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         detalle = new javax.swing.JTextArea();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jLabel5 = new javax.swing.JLabel();
+        precio = new javax.swing.JFormattedTextField();
+        jLabel8 = new javax.swing.JLabel();
+        fecha_ven = new com.toedter.calendar.JDateChooser();
         jPanel5 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -246,9 +257,16 @@ public class ProductosPanel extends javax.swing.JPanel {
         detalle.setRows(5);
         jScrollPane1.setViewportView(detalle);
 
-        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel5.setText("Precio S/.: ");
 
-        jDateChooser1.setDateFormatString("d/M/y");
+        precio.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        precio.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel8.setText("Fecha de venc.");
+
+        fecha_ven.setDateFormatString("dd/MM/yyyy");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -256,22 +274,18 @@ public class ProductosPanel extends javax.swing.JPanel {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nombres, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
-                            .addGroup(jPanel8Layout.createSequentialGroup()
-                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(nombres, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(precio, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fecha_ven, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(msgPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel8Layout.setVerticalGroup(
@@ -279,17 +293,26 @@ public class ProductosPanel extends javax.swing.JPanel {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addComponent(msgPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(nombres, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(nombres, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
                 .addGap(32, 32, 32)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(precio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel8))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(fecha_ven, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -448,6 +471,18 @@ public class ProductosPanel extends javax.swing.JPanel {
             Producto s = new Producto();
             s.setNombre(nombres.getText());
             s.setDetalle(detalle.getText());
+            
+            if (precio.getText().equals("")) {
+                precio.setText("0");
+            }
+            s.setPrecio(Double.parseDouble(precio.getText().replaceAll(",", "")));
+            
+            //s.setFecha_ven(fecha_ven.getDate());
+            System.out.println("fecha_ven.getDate(): " +fecha_ven.getDate());
+            DateFormat df = new SimpleDateFormat("dd/MM/YYYY - hh:mm:ss");
+            
+            s.setFecha_ven(convert( fecha_ven.getDate() ));
+            
             if (table.getSelectedRow() != -1) {// ha seleccionado, update
                 try {
                     Producto fila = (Producto) productosTableModel.getRow(table.getSelectedRow());
@@ -558,16 +593,17 @@ public class ProductosPanel extends javax.swing.JPanel {
     private javax.swing.JTextField buscarField;
     private javax.swing.JTextArea detalle;
     private igu.util.buttons.TheButton eliminarButton;
+    private com.toedter.calendar.JDateChooser fecha_ven;
     private javax.swing.JPanel footFormPanel;
     private igu.util.buttons.TheButton guardarButton;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
@@ -582,6 +618,7 @@ public class ProductosPanel extends javax.swing.JPanel {
     private util.MsgPanel msgPanel1;
     private javax.swing.JTextField nombres;
     private igu.util.buttons.TheButton nuevoButton;
+    private javax.swing.JFormattedTextField precio;
     private javax.swing.JTable table;
     private igu.util.buttons.TheButton theButton4;
     // End of variables declaration//GEN-END:variables

@@ -24,13 +24,16 @@ public class ProductoData {
     public static int create(Producto d) {
         int rsId = 0;
         String[] returns = {"id"};
-        String sql = "INSERT INTO productos(nombre, detalle) "
-                + "VALUES(?,?)";
+        String sql = "INSERT INTO productos(nombre, detalle, precio, fecha_ven) "
+                + "VALUES(?,?,?,?)";
         int i = 0;
         try {
             ps = cn.prepareStatement(sql, returns);
             ps.setString(++i, d.getNombre());
             ps.setString(++i, d.getDetalle());
+            ps.setDouble(++i, d.getPrecio());
+            System.out.println("d.getFecha_ven(): " + d.getFecha_ven());
+            ps.setDate(++i, d.getFecha_ven() );
             rsId = ps.executeUpdate();// 0 no o 1 si commit
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
@@ -51,13 +54,16 @@ public class ProductoData {
         int comit = 0;
         String sql = "UPDATE productos SET "
                 + "nombre=?, "
-                + "detalle=? "
+                + "detalle=?, "
+                + "precio=? "
                 + "WHERE id=?";
         int i = 0;
         try {
             ps = cn.prepareStatement(sql);
             ps.setString(++i, d.getNombre());
             ps.setString(++i, d.getDetalle());
+            ps.setDouble(++i, d.getPrecio());
+            
             ps.setInt(++i, d.getId());
             comit = ps.executeUpdate();
         } catch (SQLException ex) {
@@ -116,6 +122,7 @@ public class ProductoData {
                 d.setId(rs.getInt("id"));
                 d.setNombre(rs.getString("nombre"));
                 d.setDetalle(rs.getString("detalle"));
+                d.setPrecio(rs.getDouble("precio"));
                 ls.add(d);
             }
         } catch (SQLException ex) {
@@ -137,6 +144,7 @@ public class ProductoData {
                 d.setId(rs.getInt("id"));
                 d.setNombre(rs.getString("nombre"));
                 d.setDetalle(rs.getString("detalle"));
+                d.setPrecio(rs.getDouble("precio"));
             }
         } catch (SQLException ex) {
             log.log(Level.SEVERE, "getByPId", ex);

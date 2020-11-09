@@ -13,26 +13,17 @@ import javax.swing.table.AbstractTableModel;
 public class ProductosTableModel extends AbstractTableModel {
 
     private List<Producto> lis = new ArrayList();
-    private String[] columns = {"#", "Nombre", "Detalle"};
-    private Class[] columnsType = {Integer.class, String.class, String.class};
+    private String[] columns = {"#", "Nombre", "Detalle", "Precio", "Fecha venc"};
+    private Class[] columnsType = {Integer.class, String.class, String.class, Double.class, String.class};
 
     public ProductosTableModel() {
         lis = ProductoData.list("");
     }
 
     public ProductosTableModel(String filter) {
-
         lis = ProductoData.list(filter);
     }
 
-   // public List<Producto> getRegistros() {
-  //      return CienteData.listCmb("");
-   // }
-
-    // public List<Producto> getlist(String filter) {
-    //    lis = CienteData.list(filter);
-    //    return lis;
-    // }
     @Override
     public Object getValueAt(int row, int column) {
         Producto d = (Producto) lis.get(row);
@@ -43,6 +34,10 @@ public class ProductosTableModel extends AbstractTableModel {
                 return d.getNombre();
             case 2:
                 return d.getDetalle();
+            case 3:
+                return d.getPrecio();
+            case 4:
+                return d.getFecha_ven();
             default:
                 return null;
         }
