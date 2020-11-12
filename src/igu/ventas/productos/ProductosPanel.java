@@ -44,6 +44,7 @@ public class ProductosPanel extends javax.swing.JPanel {
 
         detalle.setText("");
         precio.setText("");
+        fecha_ven.setDate(null);
         guardarButton.setText("REGISTRAR");
         guardarButton.setToolTipText("REGISTRAR");
         MsgPanel.error("");
@@ -478,8 +479,10 @@ public class ProductosPanel extends javax.swing.JPanel {
             
             //s.setFecha_ven(fecha_ven.getDate());
             System.out.println("fecha_ven.getDate(): " +fecha_ven.getDate());
-            DateFormat df = new SimpleDateFormat("dd/MM/YYYY - hh:mm:ss");
             
+            if (fecha_ven.getDate() == null ) {
+                fecha_ven.setDate(new Date());
+            }
             s.setFecha_ven( fecha_ven.getDate());
             
             if (table.getSelectedRow() != -1) {// ha seleccionado, update

@@ -2,12 +2,10 @@ package data;
 
 import entities.Producto;
 import java.sql.Connection;
-import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,14 +23,9 @@ public class ProductoData {
     static PreparedStatement ps;
     static ErrorLogger log = new ErrorLogger(ProductoData.class.getName());
     
-    static SimpleDateFormat df = new SimpleDateFormat("dd/MM/YYYY - hh:mm:ss");
+    //static SimpleDateFormat df = new SimpleDateFormat("dd/MM/YYYY - hh:mm:ss");
     static SimpleDateFormat sdf = new SimpleDateFormat(SQLiteConfig.DEFAULT_DATE_STRING_FORMAT);
         
-    private static java.sql.Date convert(java.util.Date uDate) {
-        java.sql.Date sDate = new java.sql.Date(uDate.getTime());
-        return sDate;
-    }
-    
     public static int create(Producto d) {
         int rsId = 0;
         String[] returns = {"id"};

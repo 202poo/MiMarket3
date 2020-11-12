@@ -2,10 +2,11 @@ package igu.ventas.productos;
 
 import data.ProductoData;
 import entities.Producto;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+import util.Config;
 
 /**
  *
@@ -16,7 +17,8 @@ public class ProductosTableModel extends AbstractTableModel {
     private List<Producto> lis = new ArrayList();
     private String[] columns = {"#", "Nombre", "Detalle", "Precio", "Fecha venc"};
     private Class[] columnsType = {Integer.class, String.class, String.class, Double.class, String.class};
-
+    static SimpleDateFormat dfIGU = new SimpleDateFormat(Config.DEFAULT_DATE_STRING_FORMAT_PE);
+    
     public ProductosTableModel() {
         lis = ProductoData.list("");
     }
@@ -38,7 +40,7 @@ public class ProductosTableModel extends AbstractTableModel {
             case 3:
                 return d.getPrecio();
             case 4:
-                return d.getFecha_ven();
+                return dfIGU.format( d.getFecha_ven());
             default:
                 return null;
         }
