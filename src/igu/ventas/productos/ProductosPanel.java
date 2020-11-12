@@ -95,6 +95,8 @@ public class ProductosPanel extends javax.swing.JPanel {
         buscarField = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         theButton4 = new igu.util.buttons.TheButton();
+        fechai = new com.toedter.calendar.JDateChooser();
+        fechaf = new com.toedter.calendar.JDateChooser();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -145,6 +147,22 @@ public class ProductosPanel extends javax.swing.JPanel {
             }
         });
 
+        fechai.setDateFormatString("dd/MM/yyyy");
+        fechai.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        fechai.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                fechaiPropertyChange(evt);
+            }
+        });
+
+        fechaf.setDateFormatString("dd/MM/yyyy");
+        fechaf.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        fechaf.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                fechafPropertyChange(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -153,6 +171,10 @@ public class ProductosPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(fechai, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(fechaf, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(buscarField, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
@@ -172,9 +194,12 @@ public class ProductosPanel extends javax.swing.JPanel {
                             .addComponent(jLabel6)
                             .addComponent(jLabel7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(theButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buscarField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fechai, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fechaf, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(theButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(buscarField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jLabel1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -267,6 +292,7 @@ public class ProductosPanel extends javax.swing.JPanel {
         jLabel8.setText("Fecha de venc.");
 
         fecha_ven.setDateFormatString("dd/MM/yyyy");
+        fecha_ven.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -371,7 +397,7 @@ public class ProductosPanel extends javax.swing.JPanel {
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 642, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
@@ -590,12 +616,28 @@ public class ProductosPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_nombresKeyReleased
 
+    private void fechaiPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechaiPropertyChange
+        // TODO add your handling code here:
+        System.out.printf("Hola ");
+        ProductosTableModel tableModel = new ProductosTableModel(buscarField.getText(),fechai.getDate(), fechaf.getDate());
+        paintTable(tableModel);
+    }//GEN-LAST:event_fechaiPropertyChange
+
+    private void fechafPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechafPropertyChange
+        // TODO add your handling code here:
+         System.out.printf("Hola final");
+        ProductosTableModel tableModel = new ProductosTableModel(buscarField.getText(), fechai.getDate(), fechaf.getDate());
+        paintTable(tableModel);
+    }//GEN-LAST:event_fechafPropertyChange
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField buscarField;
     private javax.swing.JTextArea detalle;
     private igu.util.buttons.TheButton eliminarButton;
     private com.toedter.calendar.JDateChooser fecha_ven;
+    private com.toedter.calendar.JDateChooser fechaf;
+    private com.toedter.calendar.JDateChooser fechai;
     private javax.swing.JPanel footFormPanel;
     private igu.util.buttons.TheButton guardarButton;
     private javax.swing.JLabel jLabel1;

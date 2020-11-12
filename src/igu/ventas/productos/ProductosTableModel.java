@@ -4,6 +4,7 @@ import data.ProductoData;
 import entities.Producto;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import util.Config;
@@ -26,6 +27,11 @@ public class ProductosTableModel extends AbstractTableModel {
     public ProductosTableModel(String filter) {
         lis = ProductoData.list(filter);
     }
+    
+    public ProductosTableModel(String filter, Date fi, Date ff) {
+        lis = ProductoData.list(filter, fi, ff);
+    }
+    
 
     @Override
     public Object getValueAt(int row, int column) {

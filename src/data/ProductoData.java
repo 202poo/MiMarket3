@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import util.ErrorLogger;
 import java.util.logging.Level;
@@ -25,7 +26,10 @@ public class ProductoData {
     
     //static SimpleDateFormat df = new SimpleDateFormat("dd/MM/YYYY - hh:mm:ss");
     static SimpleDateFormat sdf = new SimpleDateFormat(SQLiteConfig.DEFAULT_DATE_STRING_FORMAT);
-        
+    
+    static Date dt = new Date();
+    static String currentTime = sdf.format(dt);
+    
     public static int create(Producto d) {
         int rsId = 0;
         String[] returns = {"id"};
@@ -126,6 +130,78 @@ public class ProductoData {
                     + "nombre LIKE'" + filter + "%' OR detalle LIKE'" + filter + "%' OR "
                     + "id LIKE'" + filter + "%') "
                     + "ORDER BY nombre";
+        }
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                Producto d = new Producto();
+                d.setId(rs.getInt("id"));
+                d.setNombre(rs.getString("nombre"));
+                d.setDetalle(rs.getString("detalle"));
+                d.setPrecio(rs.getDouble("precio"));
+                try {
+                    d.setFecha_ven(sdf.parse(rs.getString("fecha_ven")));
+                } catch (Exception e) {
+                }
+                ls.add(d);
+            }
+        } catch (SQLException ex) {
+            log.log(Level.SEVERE, "list", ex);
+        }
+        return ls;
+    }
+    
+    
+    public static List<Producto> list(String filter, Date fi, Date ff) {
+        String filtert = null;
+        if (filter == null) {
+            filtert = "";
+        } else {
+            filtert = filter;
+        }
+        System.out.println("list.filtert:" + filtert);
+        
+        
+        String fechati = null;
+        if (fi == null) {
+            System.out.println("list.fechat: SIN FECHAAAiiiiii");
+            fechati = currentTime;
+        } else {
+            fechati = sdf.format(fi);
+        }
+         System.out.println("list.fechati:" + fechati);
+        
+        String fechat = null;
+        if (ff == null) {
+            System.out.println("list.fechat: SIN FECHAAA");
+            fechat = currentTime;
+        } else {
+            fechat = sdf.format(ff);
+        }
+        System.out.println("list.fechat:" + fechat);
+        
+        
+        
+
+        List<Producto> ls = new ArrayList();
+
+        String sql = "";
+        if (filtert.equals("")) {
+            //sql = "SELECT * FROM productos ORDER BY id";
+             sql = "SELECT * FROM productos "
+                    + "WHERE strftime('%Y-%m-%d', fecha_ven) = strftime('%Y-%m-%d', '" + fechat + "') "
+                    + "ORDER BY fecha_ven";
+        } else {
+            //sql = "SELECT * FROM productos WHERE (id LIKE'" + filter + "%' OR "
+            //        + "nombre LIKE'" + filter + "%' OR detalle LIKE'" + filter + "%' OR "
+            //        + "id LIKE'" + filter + "%') "
+            //        + "ORDER BY nombre";
+            sql = "SELECT * FROM productos WHERE (id LIKE'" + filtert + "%'  "
+                    + " OR nombre LIKE'" + filtert + "%' OR "
+                    + "id LIKE'" + filtert + "%') "
+                    + " AND strftime('%Y-%m-%d', fecha_ven) = strftime('%Y-%m-%d', '" + fechat + "') "
+                    + "ORDER BY fecha_ven";
         }
         try {
             Statement st = cn.createStatement();
