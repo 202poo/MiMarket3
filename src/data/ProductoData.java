@@ -190,7 +190,8 @@ public class ProductoData {
         if (filtert.equals("")) {
             //sql = "SELECT * FROM productos ORDER BY id";
              sql = "SELECT * FROM productos "
-                    + "WHERE strftime('%Y-%m-%d', fecha_ven) = strftime('%Y-%m-%d', '" + fechat + "') "
+                    + " WHERE strftime('%Y-%m-%d', fecha_ven) >= strftime('%Y-%m-%d', '" + fechati + "') "
+                    + " AND strftime('%Y-%m-%d', fecha_ven) <= strftime('%Y-%m-%d', '" + fechat + "') "
                     + "ORDER BY fecha_ven";
         } else {
             //sql = "SELECT * FROM productos WHERE (id LIKE'" + filter + "%' OR "
@@ -200,7 +201,9 @@ public class ProductoData {
             sql = "SELECT * FROM productos WHERE (id LIKE'" + filtert + "%'  "
                     + " OR nombre LIKE'" + filtert + "%' OR "
                     + "id LIKE'" + filtert + "%') "
-                    + " AND strftime('%Y-%m-%d', fecha_ven) = strftime('%Y-%m-%d', '" + fechat + "') "
+                    + " AND strftime('%Y-%m-%d', fecha_ven) >= strftime('%Y-%m-%d', '" + fechati + "') "
+                    + " AND strftime('%Y-%m-%d', fecha_ven) <= strftime('%Y-%m-%d', '" + fechat + "') "
+ 
                     + "ORDER BY fecha_ven";
         }
         try {

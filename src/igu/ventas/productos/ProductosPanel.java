@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
+import util.Config;
 import util.ErrorLogger;
 import util.MsgPanel;
 
@@ -25,6 +26,8 @@ import util.MsgPanel;
 public class ProductosPanel extends javax.swing.JPanel {
 
     ProductosTableModel productosTableModel;
+    static SimpleDateFormat dfIGU = new SimpleDateFormat(Config.DEFAULT_DATE_STRING_FORMAT_PE);
+    //dfIGU.format( d.getFecha_ven() );
 
     public ProductosPanel() {
         initComponents();
@@ -32,8 +35,17 @@ public class ProductosPanel extends javax.swing.JPanel {
         table.setDefaultRenderer(Object.class, new EstiloTablaRendererXX());
         table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         resetForm();
-        productosTableModel = new ProductosTableModel();
-        paintTable(productosTableModel);
+        
+        
+        //productosTableModel = new ProductosTableModel();
+        //paintTable(productosTableModel);
+        
+        fechai.setDate(new Date());
+        fechaf.setDate(new Date());
+        ProductosTableModel tableModel = new ProductosTableModel("",fechai.getDate(), fechaf.getDate());
+        paintTable(tableModel);
+        
+        
     }
     
 
