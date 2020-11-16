@@ -531,7 +531,7 @@ public class ProductosPanel extends javax.swing.JPanel {
                     if (s.getId() > 0) {
                         int returnId = ProductoData.update(s);
                         if (returnId != 0) {
-                            paintTable(new ProductosTableModel());
+                            paintTable(new ProductosTableModel(buscarField.getText(),fechai.getDate(), fechaf.getDate()));
                             resetForm();
                             MsgPanel.success(" Se ha modificado a:" + s.getNombre());
                         }
@@ -543,7 +543,7 @@ public class ProductosPanel extends javax.swing.JPanel {
                 try {
                     int returnId = ProductoData.create(s);
                     if (returnId != 0) {
-                        paintTable(new ProductosTableModel());
+                        paintTable(new ProductosTableModel(buscarField.getText(),fechai.getDate(), fechaf.getDate()));
                         // s.setId(returnId);//necesitamos subir el id, ya no
                         //tableModel.addRow(s);
                         resetForm();
@@ -586,7 +586,7 @@ public class ProductosPanel extends javax.swing.JPanel {
                     int opcion = ProductoData.delete(fila.getId());
                     if (opcion != 0) {
                         //tableModel.removeRow(table.getSelectedRow());
-                        paintTable(new ProductosTableModel());
+                        paintTable(new ProductosTableModel(buscarField.getText(),fechai.getDate(), fechaf.getDate()));
                         resetForm();
                         MsgPanel.success("Se ha eliminado a:" + fila.getNombre());
                     }
@@ -601,7 +601,7 @@ public class ProductosPanel extends javax.swing.JPanel {
 
     private void buscarFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscarFieldKeyReleased
         // TODO add your handling code here:
-        ProductosTableModel tableModel = new ProductosTableModel(buscarField.getText());
+        ProductosTableModel tableModel = new ProductosTableModel(buscarField.getText(),fechai.getDate(), fechaf.getDate());
         paintTable(tableModel);
 
     }//GEN-LAST:event_buscarFieldKeyReleased

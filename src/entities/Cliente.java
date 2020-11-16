@@ -10,6 +10,12 @@ public class Cliente {
     private String nombres;
     private String info_adic;
     
+    public Cliente() {
+    }
+    public Cliente(String nombres) {
+        this.nombres=nombres;
+    }
+    
     public String toString() {
         return nombres;
     }

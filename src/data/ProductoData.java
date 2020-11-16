@@ -198,9 +198,8 @@ public class ProductoData {
             //        + "nombre LIKE'" + filter + "%' OR detalle LIKE'" + filter + "%' OR "
             //        + "id LIKE'" + filter + "%') "
             //        + "ORDER BY nombre";
-            sql = "SELECT * FROM productos WHERE (id LIKE'" + filtert + "%'  "
-                    + " OR nombre LIKE'" + filtert + "%' OR "
-                    + "id LIKE'" + filtert + "%') "
+            sql = "SELECT * FROM productos WHERE (id LIKE '" + filtert + "%'  "
+                    + " OR nombre LIKE '" + filtert + "%' )"
                     + " AND strftime('%Y-%m-%d', fecha_ven) >= strftime('%Y-%m-%d', '" + fechati + "') "
                     + " AND strftime('%Y-%m-%d', fecha_ven) <= strftime('%Y-%m-%d', '" + fechat + "') "
  
