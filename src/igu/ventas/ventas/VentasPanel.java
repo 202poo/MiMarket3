@@ -7,8 +7,12 @@ package igu.ventas.ventas;
 
 import data.ClienteData;
 import entities.Cliente;
+import entities.Venta;
+import igu.util.tables.TableCellNumber;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 /**
  *
@@ -18,6 +22,11 @@ public class VentasPanel extends javax.swing.JPanel {
     
     private DefaultComboBoxModel clientesComboxModel;
     private List<Cliente> clientes;
+    
+    VentaLineasTableModel mtdc;
+    private boolean esActualizacion;
+    private Cliente clienteSelected;
+    private Venta ventaSelected;
 
 
     /**
@@ -28,7 +37,42 @@ public class VentasPanel extends javax.swing.JPanel {
         clientes = ClienteData.listCmb("");
         clientesComboxModel = new DefaultComboBoxModel(clientes.toArray());
         jComboBox1.setModel(clientesComboxModel);
+        
+        mtdc = new VentaLineasTableModel();
+        tabla.setModel(mtdc);
+        tabla.setEnabled(false);
+    paintTable(mtdc);
+
     }
+
+    public void paintTable(VentaLineasTableModel tableModel) {
+        this.mtdc = tableModel;
+        tabla.setModel(mtdc);
+
+        setEventTable();
+        if (ventaSelected != null) {
+            if (ventaSelected.getActivo() == 1) {
+                //estado.setText("EN PROCESO");
+            }
+            if (ventaSelected.getActivo() == 2) {
+                //estado.setText("COMPLETADO");
+            }
+        }
+
+    }
+
+    private void setEventTable() {
+        TableModelListener tml = new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                System.out.printf("tableChanged \n");
+               // tableHandlerEvent();
+            }
+        };
+        this.tabla.getModel().addTableModelListener(tml);
+
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -48,7 +92,7 @@ public class VentasPanel extends javax.swing.JPanel {
         jComboBox1 = new javax.swing.JComboBox<>();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabla = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -99,7 +143,7 @@ public class VentasPanel extends javax.swing.JPanel {
                 .addContainerGap(39, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -110,7 +154,7 @@ public class VentasPanel extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabla);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -191,6 +235,6 @@ public class VentasPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 }
