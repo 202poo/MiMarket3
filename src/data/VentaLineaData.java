@@ -148,4 +148,32 @@ public class VentaLineaData {
         }
         return d;
     }
+    
+    
+    public static List<VentaLinea> listByVenta(int venta_id) { // devolver todas las lineas de una venta
+
+        System.out.println("listByVenta.comp_id:" + venta_id);
+
+        List<VentaLinea> ls = new ArrayList();
+
+        String sql = "";
+         sql = " SELECT * FROM venta_lineas "
+                + " WHERE venta_id = " + venta_id + " "
+                + " ORDER BY id ";
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                VentaLinea d = new VentaLinea();
+                d.setId(rs.getInt("id"));
+                d.setDescripcion(rs.getString("descripcion"));
+                d.setCant(rs.getDouble("cant"));
+                ls.add(d);
+            }
+        } catch (SQLException ex) {
+            log.log(Level.SEVERE, "list", ex);
+        }
+        return ls;
+    }
+    
 }

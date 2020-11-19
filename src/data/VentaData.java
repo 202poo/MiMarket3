@@ -47,7 +47,7 @@ public class VentaData {
             ps.setInt(++i, d.getClie_id());
             ps.setInt(++i, d.getActivo());
             System.out.println("d.getFecha(): " + d.getFecha());
-            ps.setString(++i, sdf.format(  d.getFecha()  ) );
+            ps.setString(++i, sdf.format(  dt  ) ); //d.getFecha()
             rsId = ps.executeUpdate();// 0 no o 1 si commit
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
@@ -248,5 +248,39 @@ public class VentaData {
             log.log(Level.SEVERE, "getByPId", ex);
         }
         return d;
+    }
+    
+    
+    
+    
+    public static List<Venta> listActivesByCliente(int clie_id) {
+        System.out.println("listActivesByCliente.clie_id:" + clie_id);
+
+        List<Venta> ls = new ArrayList();
+
+        String sql = "";
+
+        sql = " SELECT * FROM ventas "
+                + " WHERE clie_id = " + clie_id + " and activo=1 "
+                + " ORDER BY id ";
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                Venta d = new Venta();
+                d.setId(rs.getInt("id"));
+                d.setClie_nom(rs.getString("clie_nom"));
+                d.setClie_id(rs.getInt("clie_id"));
+                d.setActivo(rs.getInt("activo"));
+                try {
+                    d.setFecha(sdf.parse(rs.getString("fecha")));
+                } catch (Exception e) {
+                }
+                ls.add(d);
+            }
+        } catch (SQLException ex) {
+            log.log(Level.SEVERE, "listActivesByCliente", ex);
+        }
+        return ls;
     }
 }

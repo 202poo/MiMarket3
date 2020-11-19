@@ -1,6 +1,7 @@
 package igu.ventas.ventas;
 
 import data.VentaLineaData;
+import entities.Venta;
 import entities.VentaLinea;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,11 @@ public class VentaLineasTableModel extends AbstractTableModel {
 
     public VentaLineasTableModel() {
         lis = VentaLineaData.list("");
+    }
+
+    public VentaLineasTableModel(Venta d) {
+        this.lis = VentaLineaData.listByVenta(d.getId());
+        this.lis.add(new VentaLinea());
     }
 
     public VentaLineasTableModel(String filter) {

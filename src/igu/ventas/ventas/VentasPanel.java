@@ -6,12 +6,14 @@
 package igu.ventas.ventas;
 
 import data.ClienteData;
+import data.VentaData;
 import entities.Cliente;
 import entities.Venta;
 import igu.util.tables.TableCellNumber;
 import java.awt.event.ItemEvent;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.border.LineBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import util.MsgPanel;
@@ -193,13 +195,15 @@ public class VentasPanel extends javax.swing.JPanel {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
         );
 
+        msgPanel1.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(msgPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(msgPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -259,8 +263,32 @@ public class VentasPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         if (clienteSelected != null) { //.getId() >0
             MsgPanel.success("clienteSelected:" + clienteSelected.getNombres());
+            if (ventaSelected != null) {
+                paintTable(new VentaLineasTableModel(ventaSelected));
+                MsgPanel.success("venta id:" + ventaSelected.getId() + "  existente de " + ventaSelected.getClie_nom() + " idcli:" + clienteSelected.getId());
+
+            }else {
+                ventaSelected = null;
+                Venta d = new Venta();
+                d.setClie_id(clienteSelected.getId());
+                d.setClie_nom(clienteSelected.getNombres());
+                int ventaId = VentaData.create(d);
+
+                if (ventaId > 0) {
+                    ventaSelected = VentaData.getByPId(ventaId);
+                    MsgPanel.success("venta id:" + ventaSelected.getId() + " creado para " + ventaSelected.getClie_nom() + " idcli:" + clienteSelected.getId());
+                    
+                    paintTable(new VentaLineasTableModel(ventaSelected));
+
+                } else {
+
+                    ventaSelected = null;
+                    MsgPanel.error("No se pudo crear la venta para idcli:" + clienteSelected.getId(), true);
+                }
+                
+            }
         }else {
-            MsgPanel.error("Elija un proveedor", true);
+            MsgPanel.error("Elija un cliente", true);
         }
     }//GEN-LAST:event_theButton1ActionPerformed
 
@@ -270,10 +298,23 @@ public class VentasPanel extends javax.swing.JPanel {
             clienteSelected = (Cliente) jComboBox1.getSelectedItem();
             int id = clienteSelected.getId();
             if (id > 0) {
+                List<Venta> ventasDelCliente = VentaData.listActivesByCliente(clienteSelected.getId());
+                if (ventasDelCliente.size() > 0) {
+                    int ventaId = ventasDelCliente.get(0).getId();// coge el primero
+                    ventaSelected = VentaData.getByPId(ventaId);
+                    MsgPanel.success(" ventaSelected: " + ventaSelected.getId() + " de " + ventaSelected.getClie_nom() + " continuar con la venta");
+                } else {
+                    ventaSelected = null;
+                    MsgPanel.success(" cliente: " + clienteSelected.getNombres() + " sin ventas pendientes, se va crear nueva venta");
+                }
+                tabla.setEnabled(true);
+                esActualizacion = true;
+               // cmbProveedor.setBorder(new LineBorder(new java.awt.Color(0, 0, 0), 1));
+                // MsgPanel.error("");
+                paintTable(new VentaLineasTableModel());
                 
             }else {
                 MsgPanel.success("seleccione cliente");
-                clienteSelected = null;
                 clienteSelected = null;
                 tabla.setEnabled(false);
                 paintTable(new VentaLineasTableModel());
