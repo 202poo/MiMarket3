@@ -5,6 +5,9 @@
  */
 package igu.ventas.ventas;
 
+import entities.Producto;
+import entities.Venta;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
@@ -74,6 +77,33 @@ public class AddDelProductPanel extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         System.out.println("add");
+        if (this.tabla.getSelectedRow() != -1) {
+            this.indexFila = this.tabla.getSelectedRow();
+            System.err.println("add " + this.indexFila);
+        }
+        //if (((VentasPanel) this.ifr).isEsActualizacion()) {
+        //    System.out.println("isEsActualizacion  true ");
+        //}
+
+        VentasPanel cp = ((VentasPanel) this.ifr);
+        Venta ventaSelected = cp.getVentaSelected();
+        if (ventaSelected != null) {
+            BuscarProductoPanel mov = new BuscarProductoPanel(ventaSelected);
+            // mov.setCompraSelected(compraSelected);
+            //mov.getCompraSelected().getEsdolares()
+            JOptionPane.showOptionDialog(null, mov,
+                    "Elija un producto ",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{}, null);
+            
+            Producto pSelected=mov.getProducto();
+            if (pSelected != null) {
+                System.err.println("Producto seleccionado " + pSelected.getNombre() );
+                
+            }else {
+                System.err.println("Producto NO seleccionado " );
+            }
+
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

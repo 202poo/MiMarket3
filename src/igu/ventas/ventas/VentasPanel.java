@@ -28,9 +28,22 @@ public class VentasPanel extends javax.swing.JPanel {
     private List<Cliente> clientes;
     
     VentaLineasTableModel mtdc;
+    
     private boolean esActualizacion;
     private Cliente clienteSelected;
     private Venta ventaSelected;
+
+    public Venta getVentaSelected() {
+        return ventaSelected;
+    }
+
+    public boolean isEsActualizacion() {
+        return esActualizacion;
+    }
+
+    public Cliente getClienteSelected() {
+        return clienteSelected;
+    }
 
 
     /**
