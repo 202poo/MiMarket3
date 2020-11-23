@@ -61,36 +61,35 @@ public class VentaLineasTableModel extends AbstractTableModel {
         }
     }
 
-    /*
+    
     @Override
     public void setValueAt(Object valor, int row, int column) {
         VentaLinea d = (VentaLinea) lis.get(row);
         switch (column) {
             
-           // case 0:
-           //     int id = 0;
-           //     try {
-            //        if (valor instanceof Number) {
-           //             id = Integer.parseInt("" + valor);
-           //         }
-           //     } catch (NumberFormatException nfe) {
-            //        System.err.println("" + nfe);
-             //   }
-            //    d.setId(id);
-             //   break;
-             
-            case 1:
-                d.setNombres("" + valor);
+
+            case 3:
+                
+                System.out.println("setValueAt : " + "" + valor);
+                double gr = 0;
+                try {
+                    gr = Double.parseDouble(valor + "");
+                } catch (NumberFormatException nfe) {
+                    System.err.println("" + nfe);
+                }
+                d.setCant(gr);
+                System.out.println("getCant : " + "" + d.getCant());
+                //d.setSubtotal( d.getCant()*d.getPrecio() );
                 break;
             case 2:
-                d.setInfo_adic("" + valor);
+              //  d.setInfo_adic("" + valor);
                 break;
 
         }
         this.fireTableRowsUpdated(row, row);
         //fireTableCellUpdated(row, row);
     }
-     */
+     
     @Override
     public boolean isCellEditable(int row, int column) {
         //VentaLinea c = (VentaLinea) lis.get(row);

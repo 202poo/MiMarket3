@@ -66,6 +66,9 @@ public class VentasPanel extends javax.swing.JPanel {
         this.mtdc = tableModel;
         tabla.setModel(mtdc);
         
+        tabla.getColumnModel().getColumn(3).setCellEditor(new TableCelCantEditor(this));
+        //tabla.getColumnModel().getColumn(3).setCellRenderer(new TableCellNumber("#,##0.00")); // "#,##0.00"
+        
         tabla.getColumnModel().getColumn(5).setCellRenderer(new AccionTableCellRenderer(this));
         tabla.getColumnModel().getColumn(5).setCellEditor(new CeldaAccionEditor(this));
 
