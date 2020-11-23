@@ -77,7 +77,7 @@ public class VentaLineaData {
             ps.setDouble(++i, d.getCant());
             ps.setDouble(++i, d.getPrecio());
             ps.setDouble(++i, d.getDescto());
-            ps.setDouble(++i, d.getSubtotal());
+            ps.setDouble(++i, Math.round(d.getCant() * d.getPrecio() * 100.0) / 100.0 ); //ps.setDouble(++i, d.getSubtotal());
             
             //ps.setInt(++i, d.getVenta_id());
             ps.setInt(++i, d.getProd_id());

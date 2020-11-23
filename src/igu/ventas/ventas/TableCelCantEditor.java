@@ -67,46 +67,39 @@ public class TableCelCantEditor extends AbstractCellEditor implements TableCellE
                 System.out.println("keyReleased valorInicial: " + valorInicial);
 
                 VentaLineasTableModel mt = ((VentaLineasTableModel) tabla.getModel());
-                      
-                if (!valorActual.trim().isEmpty()) { 
-                    
+
+                if (!valorActual.trim().isEmpty()) {
+
                     mt.setValueAt(valorActual, fila, col);
                     tmp.setBorder(new LineBorder(new java.awt.Color(0, 0, 0), 1));
                     MsgPanel.error("");
 
                     VentaLinea d = ((VentaLinea) mt.getRow(fila));
                     System.out.println("getCant : " + d.getCant());
-                    
-                    d.setSubtotal(d.getCant()*d.getPrecio());
-                    /*
-                    if (d.getMov_tipo() == 1) { //producto es selected
-                        d.setComp_id(d.getComp_id());
-                        d.setMov_tipo(d.getMov_tipo());
-                        
-                        d.setGlosa(d.getGlosa() );
-                        
-                        d.setCant_gr( Double.parseDouble(valorActual + "") );
-                        d.setOnza(d.getOnza());
-                        d.setPorc(d.getPorc());
-                        d.setLey(d.getLey());
-                        d.setSistema(d.getSistema());
-                        d.setTc(d.getTc());
-                        int opcion = CompraDetData.update(d);
+
+                    //d.setSubtotal(d.getCant()*d.getPrecio());
+                    if (d.getProd_id() > 0) { //producto es selected
+                        //d.setVenta_id(d.getVenta_id());
+                        d.setProd_id(d.getProd_id());
+                        d.setDescripcion(d.getDescripcion());
+                        d.setPrecio(d.getPrecio());
+                        d.setCant(Double.parseDouble(valorActual + ""));
+                        //d.setSubtotal(d.getPrecio() * d.getCant());
+
+                        int opcion = VentaLineaData.update(d);
                         if (opcion != 0) {
-                            MsgPanel.success("Se ha modificado el detalle de la compra");
+                            MsgPanel.success("Se ha modificado el detalle de la venta");
                             //pintar campos calculados: totales
                             VentaLinea dt = VentaLineaData.getByPId(d.getId());
                             //d.setPrecio_do(dt.getPrecio_do());
                             //d.setPrecio_so(dt.getPrecio_so());
-                            d.setTotal_so(dt.getTotal_so());
-                            d.setTotal_do(dt.getTotal_do());
+                            d.setSubtotal(dt.getSubtotal());
+                            // d.setTotal_do(dt.getTotal_do());
                         }
-                    } else if (d.getMov_tipo() == 2) {
-                        
-                    } else {
-                        MsgPanel.success("Debe seleccionar un tipo de movimiento");
+                    }  else {
+                        MsgPanel.success("Debe seleccionar un producto");
                         fireEditingStopped();
-                    }*/
+                    }
                 } else {
                     tmp.setBorder(new LineBorder(new java.awt.Color(255, 0, 0), 3));
                     MsgPanel.error("cantidad es requerido", true);
@@ -117,9 +110,9 @@ public class TableCelCantEditor extends AbstractCellEditor implements TableCellE
 
     @Override
     public Object getCellEditorValue() {
-        if (valorActual.trim().isEmpty()) { 
+        if (valorActual.trim().isEmpty()) {
             return valorInicial;
-        }else {
+        } else {
             return valorActual;
         }
     }
@@ -132,7 +125,7 @@ public class TableCelCantEditor extends AbstractCellEditor implements TableCellE
         col = column;
         valorInicial = ((VentaLineasTableModel) table.getModel()).getValueAt(row, column) + "";
         valorActual = value == null ? "" : "" + value;
-        valor.setText(valorActual);        
+        valor.setText(valorActual);
         //System.out.println("Component valorActual : " + valorActual);
         //System.out.println("Component valorInicial : " + valorInicial);
         return valor;
