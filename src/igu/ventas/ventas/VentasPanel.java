@@ -11,11 +11,14 @@ import entities.Cliente;
 import entities.Venta;
 import igu.util.tables.TableCellNumber;
 import java.awt.event.ItemEvent;
+import java.text.DecimalFormat;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import util.Config;
 import util.MsgPanel;
 
 /**
@@ -23,12 +26,12 @@ import util.MsgPanel;
  * @author Asullom
  */
 public class VentasPanel extends javax.swing.JPanel {
-    
+
     private DefaultComboBoxModel clientesComboxModel;
     private List<Cliente> clientes;
-    
+
     VentaLineasTableModel mtdc;
-    
+
     private boolean esActualizacion;
     private Cliente clienteSelected;
     private Venta ventaSelected;
@@ -45,7 +48,6 @@ public class VentasPanel extends javax.swing.JPanel {
         return clienteSelected;
     }
 
-
     /**
      * Creates new form VentasPanel
      */
@@ -54,10 +56,11 @@ public class VentasPanel extends javax.swing.JPanel {
         clientes = ClienteData.listCmb("");
         clientesComboxModel = new DefaultComboBoxModel(clientes.toArray());
         jComboBox1.setModel(clientesComboxModel);
-        
+
         mtdc = new VentaLineasTableModel();
         tabla.setModel(mtdc);
         tabla.setEnabled(false);
+        estado.setText("");
         paintTable(mtdc);
 
     }
@@ -65,20 +68,21 @@ public class VentasPanel extends javax.swing.JPanel {
     public void paintTable(VentaLineasTableModel tableModel) {
         this.mtdc = tableModel;
         tabla.setModel(mtdc);
-        
+        tabla.getColumnModel().getColumn(0).setMaxWidth(35);
+
         tabla.getColumnModel().getColumn(3).setCellEditor(new TableCelCantEditor(this));
         //tabla.getColumnModel().getColumn(3).setCellRenderer(new TableCellNumber("#,##0.00")); // "#,##0.00"
-        
+
         tabla.getColumnModel().getColumn(5).setCellRenderer(new AccionTableCellRenderer(this));
         tabla.getColumnModel().getColumn(5).setCellEditor(new CeldaAccionEditor(this));
 
         setEventTable();
         if (ventaSelected != null) {
             if (ventaSelected.getActivo() == 1) {
-                //estado.setText("EN PROCESO");
+                estado.setText("EN PROCESO");
             }
             if (ventaSelected.getActivo() == 2) {
-                //estado.setText("COMPLETADO");
+                estado.setText("COMPLETADO");
             }
         }
 
@@ -89,16 +93,35 @@ public class VentasPanel extends javax.swing.JPanel {
             @Override
             public void tableChanged(TableModelEvent e) {
                 System.out.printf("tableChanged \n");
-               // tableHandlerEvent();
+                tableHandlerEvent();
             }
         };
         this.tabla.getModel().addTableModelListener(tml);
 
     }
+
     private void tableHandlerEvent() {
-        
+        if (ventaSelected != null) {
+            System.out.printf("ventaSelected \n");
+            double sal = sumRow(this.mtdc, 4); //CompraDetData.getSaldosByCompId(compraSelected.getId());
+            total.setText(new DecimalFormat(Config.DEFAULT_DECIMAL_STRING_FORMAT).format(sal));
+
+        } else {
+            System.out.printf("venta no Selected \n");
+            total.setText("0");
+
+        }
     }
-    
+
+    public double sumRow(VentaLineasTableModel mdl, int col) {
+        double total = 0;
+        // iterate over all columns
+        for (int i = 0; i < mdl.getRowCount(); i++) {
+            // null or not Integer will throw exception
+            total += (double) mdl.getValueAt(i, col);
+        }
+        return total;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -117,11 +140,16 @@ public class VentasPanel extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         theButton1 = new igu.util.buttons.TheButton();
+        estado = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         msgPanel1 = new util.MsgPanel();
+        total = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        theButton2 = new igu.util.buttons.TheButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -162,6 +190,10 @@ public class VentasPanel extends javax.swing.JPanel {
             }
         });
 
+        estado.setText("ESTADO");
+
+        jLabel9.setText("ESTADO DE LA VENTA:");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -171,6 +203,10 @@ public class VentasPanel extends javax.swing.JPanel {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(estado, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(theButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -181,9 +217,13 @@ public class VentasPanel extends javax.swing.JPanel {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel9)
+                                .addComponent(estado))
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel2)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(theButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -208,14 +248,29 @@ public class VentasPanel extends javax.swing.JPanel {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 895, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 899, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
         );
 
         msgPanel1.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
+
+        total.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        total.setText("jLabel3");
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("TOTAL:");
+
+        theButton2.setText("CERRAR VENTA DEL CLIENTE PARA INICIAR NUEVA VENTA");
+        theButton2.setActionCommand("CERRAR VENTA DEL CLIENTE PARA INICIAR NUEVA VENTA");
+        theButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                theButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -223,15 +278,27 @@ public class VentasPanel extends javax.swing.JPanel {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(msgPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(msgPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(theButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(msgPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(msgPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(total, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(theButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -287,7 +354,7 @@ public class VentasPanel extends javax.swing.JPanel {
                 paintTable(new VentaLineasTableModel(ventaSelected));
                 MsgPanel.success("venta id:" + ventaSelected.getId() + "  existente de " + ventaSelected.getClie_nom() + " idcli:" + clienteSelected.getId());
 
-            }else {
+            } else {
                 ventaSelected = null;
                 Venta d = new Venta();
                 d.setClie_id(clienteSelected.getId());
@@ -297,7 +364,7 @@ public class VentasPanel extends javax.swing.JPanel {
                 if (ventaId > 0) {
                     ventaSelected = VentaData.getByPId(ventaId);
                     MsgPanel.success("venta id:" + ventaSelected.getId() + " creado para " + ventaSelected.getClie_nom() + " idcli:" + clienteSelected.getId());
-                    
+
                     paintTable(new VentaLineasTableModel(ventaSelected));
 
                 } else {
@@ -305,15 +372,28 @@ public class VentasPanel extends javax.swing.JPanel {
                     ventaSelected = null;
                     MsgPanel.error("No se pudo crear la venta para idcli:" + clienteSelected.getId(), true);
                 }
-                
+
             }
-        }else {
+
+            //new
+            if (ventaSelected != null) {
+                System.out.printf("ventaSelected \n");
+                double sal = sumRow(this.mtdc, 4); //CompraDetData.getSaldosByCompId(compraSelected.getId());
+                total.setText(new DecimalFormat(Config.DEFAULT_DECIMAL_STRING_FORMAT).format(sal));
+            } else {
+                System.out.printf("venta no Selected \n");
+                total.setText("0");
+
+            }
+
+        } else {
             MsgPanel.error("Elija un cliente", true);
         }
     }//GEN-LAST:event_theButton1ActionPerformed
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
         // TODO add your handling code here:
+
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             clienteSelected = (Cliente) jComboBox1.getSelectedItem();
             int id = clienteSelected.getId();
@@ -324,16 +404,18 @@ public class VentasPanel extends javax.swing.JPanel {
                     ventaSelected = VentaData.getByPId(ventaId);
                     MsgPanel.success(" ventaSelected: " + ventaSelected.getId() + " de " + ventaSelected.getClie_nom() + " continuar con la venta");
                 } else {
+                    estado.setText("");
                     ventaSelected = null;
                     MsgPanel.success(" cliente: " + clienteSelected.getNombres() + " sin ventas pendientes, se va crear nueva venta");
                 }
                 tabla.setEnabled(true);
                 esActualizacion = true;
-               // cmbProveedor.setBorder(new LineBorder(new java.awt.Color(0, 0, 0), 1));
+                // cmbProveedor.setBorder(new LineBorder(new java.awt.Color(0, 0, 0), 1));
                 // MsgPanel.error("");
                 paintTable(new VentaLineasTableModel());
-                
-            }else {
+
+            } else {
+                estado.setText("");
                 MsgPanel.success("seleccione cliente");
                 clienteSelected = null;
                 tabla.setEnabled(false);
@@ -344,11 +426,37 @@ public class VentasPanel extends javax.swing.JPanel {
         tableHandlerEvent();
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
+    private void theButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_theButton2ActionPerformed
+        // TODO add your handling code here:
+        if (ventaSelected != null) {
+            int opc = JOptionPane.showConfirmDialog(null, "¿Realmente desea terminar la venta? Una vez cerrada ya no podrá modificar esta venta", "TERMINAR COMPRA", JOptionPane.YES_NO_OPTION);
+            if (opc == JOptionPane.OK_OPTION) {
+                ventaSelected.setActivo(2);
+                int op = VentaData.update(ventaSelected);
+
+                if (op > 0) {
+                    MsgPanel.success("compra id:" + ventaSelected.getId() + " estado :" + ventaSelected.getActivo());
+                } else {
+                    MsgPanel.error("No se pudo cambiar el estado ", true);
+                }
+            }
+            if (ventaSelected.getActivo() == 1) {
+                estado.setText("EN PROCESO");
+            }
+            if (ventaSelected.getActivo() == 2) {
+                estado.setText("COMPLETADO");
+            }
+        }
+    }//GEN-LAST:event_theButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel estado;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -359,5 +467,7 @@ public class VentasPanel extends javax.swing.JPanel {
     private util.MsgPanel msgPanel1;
     private javax.swing.JTable tabla;
     private igu.util.buttons.TheButton theButton1;
+    private igu.util.buttons.TheButton theButton2;
+    private javax.swing.JLabel total;
     // End of variables declaration//GEN-END:variables
 }

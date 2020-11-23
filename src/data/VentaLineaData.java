@@ -138,6 +138,7 @@ public class VentaLineaData {
                 d.setSubtotal(rs.getDouble("subtotal"));
                 d.setProd_id(rs.getInt("prod_id"));
                 d.setVenta_id(rs.getInt("venta_id"));
+                d.setActivo(rs.getInt("activo"));
                 ls.add(d);
             }
         } catch (SQLException ex) {
@@ -164,6 +165,7 @@ public class VentaLineaData {
                 d.setSubtotal(rs.getDouble("subtotal"));
                 d.setProd_id(rs.getInt("prod_id"));
                 d.setVenta_id(rs.getInt("venta_id"));
+                d.setActivo(rs.getInt("activo"));
             }
         } catch (SQLException ex) {
             log.log(Level.SEVERE, "getByPId", ex);
@@ -195,6 +197,7 @@ public class VentaLineaData {
                 d.setSubtotal(rs.getDouble("subtotal"));
                 d.setProd_id(rs.getInt("prod_id"));
                 d.setVenta_id(rs.getInt("venta_id"));
+                d.setActivo(rs.getInt("activo"));
                 
                 ls.add(d);
             }
