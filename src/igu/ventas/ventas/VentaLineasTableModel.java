@@ -15,7 +15,7 @@ public class VentaLineasTableModel extends AbstractTableModel {
 
     private List<VentaLinea> lis = new ArrayList();
     private String[] columns = {"#", "Producto",    "Precio un", "Cantidad", "Subtotal", "Acciones"};
-    private Class[] columnsType = {Integer.class, String.class, Double.class, Double.class, Double.class, String.class};
+    private Class[] columnsType = {Integer.class, String.class, Double.class, Double.class, Double.class, Object.class};
 
     public VentaLineasTableModel() {
         lis = VentaLineaData.list("");
@@ -97,7 +97,7 @@ public class VentaLineasTableModel extends AbstractTableModel {
         if (column >= 0 && column != 0) {
             //return true;
         }
-        return false;//bloquear edicion
+        return true;//bloquear edicion
     }
 
     @Override

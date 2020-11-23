@@ -38,14 +38,14 @@ public class VentaData {
     public static int create(Venta d) {
         int rsId = 0;
         String[] returns = {"id"};
-        String sql = "INSERT INTO ventas(clie_nom, clie_id, activo, fecha) "
-                + "VALUES(?,?,?,?)";
+        String sql = "INSERT INTO ventas(clie_nom, clie_id, fecha) "
+                + "VALUES(?,?,?)";
         int i = 0;
         try {
             ps = cn.prepareStatement(sql, returns);
             ps.setString(++i, d.getClie_nom());
             ps.setInt(++i, d.getClie_id());
-            ps.setInt(++i, d.getActivo());
+            
             System.out.println("d.getFecha(): " + d.getFecha());
             ps.setString(++i, sdf.format(  dt  ) ); //d.getFecha()
             rsId = ps.executeUpdate();// 0 no o 1 si commit

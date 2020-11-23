@@ -52,6 +52,9 @@ public class VentasPanel extends javax.swing.JPanel {
     public void paintTable(VentaLineasTableModel tableModel) {
         this.mtdc = tableModel;
         tabla.setModel(mtdc);
+        
+        tabla.getColumnModel().getColumn(5).setCellRenderer(new AccionTableCellRenderer(this));
+        tabla.getColumnModel().getColumn(5).setCellEditor(new CeldaAccionEditor(this));
 
         setEventTable();
         if (ventaSelected != null) {
@@ -182,6 +185,7 @@ public class VentasPanel extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tabla.setRowHeight(30);
         jScrollPane1.setViewportView(tabla);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
