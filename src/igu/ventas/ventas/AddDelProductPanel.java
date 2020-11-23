@@ -5,8 +5,10 @@
  */
 package igu.ventas.ventas;
 
+import data.VentaLineaData;
 import entities.Producto;
 import entities.Venta;
+import entities.VentaLinea;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -16,12 +18,13 @@ import javax.swing.JTable;
  * @author Asullom
  */
 public class AddDelProductPanel extends javax.swing.JPanel {
+
     private JPanel ifr;
     private JTable tabla;
     private VentaLineasTableModel mtdc;
     private int indexFila = -1;
     private CeldaAccionEditor cae;
-    
+
     public AddDelProductPanel(JPanel ifr) {
         initComponents();
         this.ifr = ifr;
@@ -60,7 +63,7 @@ public class AddDelProductPanel extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        setLayout(new java.awt.GridLayout());
+        setLayout(new java.awt.GridLayout(1, 0));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/igu/imgs/icons/agregar.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -71,6 +74,11 @@ public class AddDelProductPanel extends javax.swing.JPanel {
         add(jButton1);
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/igu/imgs/icons/eliminar.png"))); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         add(jButton2);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -94,17 +102,92 @@ public class AddDelProductPanel extends javax.swing.JPanel {
             JOptionPane.showOptionDialog(null, mov,
                     "Elija un producto ",
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{}, null);
-            
-            Producto pSelected=mov.getProducto();
+
+            Producto pSelected = mov.getProducto();
             if (pSelected != null) {
-                System.err.println("Producto seleccionado " + pSelected.getNombre() );
+                System.err.println("Producto seleccionado " + pSelected.getNombre());
+                VentaLinea d = ((VentaLinea) mtdc.getRow(this.indexFila));
+                d.setVenta_id(ventaSelected.getId());
+                d.setProd_id(pSelected.getId());
+                d.setDescripcion(pSelected.getNombre());
+                d.setPrecio(pSelected.getPrecio());
+                d.setCant(1);
+                d.setSubtotal(pSelected.getPrecio() * d.getCant());
+                if (d.getId() > 0) {
+                    VentaLineaData.update(d);
+                } else {
+                    int idx = VentaLineaData.create(d);
+                    d.setId(idx);
+                    d.setActivo(1);
+                }
                 
-            }else {
-                System.err.println("Producto NO seleccionado " );
+                this.tabla.changeSelection(this.indexFila, 1, true, false);
+                // mtdc.contarItems();
+                cae.lanzarDetencionEdicion();
+                
+                if (this.indexFila == this.tabla.getRowCount() - 1 ) {
+       
+                mtdc.addRow(new VentaLinea());
+   
+            }
+                
+
+            } else {
+                System.err.println("Producto NO seleccionado ");
             }
 
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        if (this.tabla.getSelectedRow() != -1) {
+            this.indexFila = this.tabla.getSelectedRow();
+        }
+        VentaLinea d = ((VentaLinea) mtdc.getRow(this.indexFila));
+        if (this.tabla.getRowCount() > 1) {
+            if (this.indexFila < this.tabla.getRowCount() - 1) {
+                int opc = JOptionPane.showConfirmDialog(ifr, "¿Realmente desea eliminar?", "Quitar", JOptionPane.YES_NO_OPTION);
+                if (opc == JOptionPane.OK_OPTION) {
+
+                    if (d != null) {
+                        try {
+                            int opcion = VentaLineaData.delete(d.getId());
+                            if (opcion != 0) {
+                                mtdc.removeRow(this.indexFila);
+                                System.out.println("removeRow fila " + this.indexFila);
+                            }
+                        } catch (Exception ex) {
+
+                        }
+
+                    } else {
+                        System.err.println("no se encontró el detalle en la db fila " + this.indexFila);
+                    }
+
+                    // mtdc.contarItems();
+                    cae.lanzarDetencionEdicion();
+                    return;
+                }
+            }
+        }
+        
+        
+        if ((this.indexFila == 0 && this.tabla.getRowCount() == 1) || (this.indexFila == this.tabla.getRowCount() - 1 && this.tabla.getRowCount() > 1)) {
+            int opc = JOptionPane.showConfirmDialog(ifr, "¿Realmente desea eliminar?, no conteste o es igual", "Quitar", JOptionPane.YES_NO_OPTION);
+            if (opc == JOptionPane.OK_OPTION) {
+                //d.setIdProducto(new Producto());
+                //mtdc.remplazarProducto(new Producto(), indexFila);    
+                //mtdc.contarItems();
+                System.out.println("remplazarProducto en fila " + this.indexFila);
+                cae.lanzarDetencionEdicion();
+                return;
+            }
+        }
+        
+        
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

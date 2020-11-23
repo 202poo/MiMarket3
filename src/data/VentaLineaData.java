@@ -63,13 +63,25 @@ public class VentaLineaData {
         int comit = 0;
         String sql = "UPDATE venta_lineas SET "
                 + "descripcion=?, "
-                + "cant=? "
+                + "cant=?, "
+                + "precio=?, "
+                + "descto=?, "
+                + "subtotal=?, "
+                + "prod_id=? "
+                
                 + "WHERE id=?";
         int i = 0;
         try {
             ps = cn.prepareStatement(sql);
             ps.setString(++i, d.getDescripcion());
             ps.setDouble(++i, d.getCant());
+            ps.setDouble(++i, d.getPrecio());
+            ps.setDouble(++i, d.getDescto());
+            ps.setDouble(++i, d.getSubtotal());
+            
+            //ps.setInt(++i, d.getVenta_id());
+            ps.setInt(++i, d.getProd_id());
+            
             ps.setInt(++i, d.getId());
             comit = ps.executeUpdate();
         } catch (SQLException ex) {
@@ -121,6 +133,11 @@ public class VentaLineaData {
                 d.setId(rs.getInt("id"));
                 d.setDescripcion(rs.getString("descripcion"));
                 d.setCant(rs.getDouble("cant"));
+                d.setPrecio(rs.getDouble("precio"));
+                d.setDescto(rs.getDouble("descto"));
+                d.setSubtotal(rs.getDouble("subtotal"));
+                d.setProd_id(rs.getInt("prod_id"));
+                d.setVenta_id(rs.getInt("venta_id"));
                 ls.add(d);
             }
         } catch (SQLException ex) {
@@ -141,7 +158,12 @@ public class VentaLineaData {
             while (rs.next()) {
                 d.setId(rs.getInt("id"));
                 d.setDescripcion(rs.getString("descripcion"));
-                d.setCant(rs.getDouble("cant"));
+                 d.setCant(rs.getDouble("cant"));
+                d.setPrecio(rs.getDouble("precio"));
+                d.setDescto(rs.getDouble("descto"));
+                d.setSubtotal(rs.getDouble("subtotal"));
+                d.setProd_id(rs.getInt("prod_id"));
+                d.setVenta_id(rs.getInt("venta_id"));
             }
         } catch (SQLException ex) {
             log.log(Level.SEVERE, "getByPId", ex);
@@ -166,8 +188,14 @@ public class VentaLineaData {
             while (rs.next()) {
                 VentaLinea d = new VentaLinea();
                 d.setId(rs.getInt("id"));
-                d.setDescripcion(rs.getString("descripcion"));
+                d.setDescripcion(rs.getString("descripcion"));                
                 d.setCant(rs.getDouble("cant"));
+                d.setPrecio(rs.getDouble("precio"));
+                d.setDescto(rs.getDouble("descto"));
+                d.setSubtotal(rs.getDouble("subtotal"));
+                d.setProd_id(rs.getInt("prod_id"));
+                d.setVenta_id(rs.getInt("venta_id"));
+                
                 ls.add(d);
             }
         } catch (SQLException ex) {
