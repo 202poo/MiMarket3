@@ -89,6 +89,7 @@ public class VentaLineaData {
         }
         return comit;
     }
+    
 
     public static int delete(int id) throws Exception {
         int comit = 0;

@@ -79,10 +79,10 @@ public class TableCelCantEditor extends AbstractCellEditor implements TableCellE
 
                     //d.setSubtotal(d.getCant()*d.getPrecio());
                     if (d.getProd_id() > 0) { //producto es selected
-                        //d.setVenta_id(d.getVenta_id());
-                        d.setProd_id(d.getProd_id());
-                        d.setDescripcion(d.getDescripcion());
-                        d.setPrecio(d.getPrecio());
+                        ////d.setVenta_id(d.getVenta_id());
+                        //d.setProd_id(d.getProd_id());
+                        //d.setDescripcion(d.getDescripcion());
+                        //d.setPrecio(d.getPrecio());
                         d.setCant(Double.parseDouble(valorActual + ""));
                         //d.setSubtotal(d.getPrecio() * d.getCant());
 

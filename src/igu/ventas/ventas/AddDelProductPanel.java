@@ -63,7 +63,7 @@ public class AddDelProductPanel extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        setLayout(new java.awt.GridLayout(1, 0));
+        setLayout(new java.awt.GridLayout());
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/igu/imgs/icons/agregar.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {

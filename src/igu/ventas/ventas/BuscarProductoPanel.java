@@ -24,16 +24,16 @@ public class BuscarProductoPanel extends javax.swing.JPanel {
     Producto d; //  seleccionado
     JOptionPane op;
     private Venta ventaSelected;
-    
-     public BuscarProductoPanel(Venta compraSelectedx) {
+
+    public BuscarProductoPanel(Venta compraSelectedx) {
         initComponents();
-        ventaSelected=compraSelectedx;
-       // resetForm();
-       //info.setText("La compra " + compraSelected.getId() + " está en moneda: "+compraSelected.getEsdolares());
-       //compraSelected = this.getCompraSelected();
-        
+        ventaSelected = compraSelectedx;
+        // resetForm();
+        //info.setText("La compra " + compraSelected.getId() + " está en moneda: "+compraSelected.getEsdolares());
+        //compraSelected = this.getCompraSelected();
+
         if (ventaSelected != null) {
-            
+
         }
 
         //table.getTableHeader().setDefaultRenderer(new EstiloTablaHeader());
@@ -65,7 +65,9 @@ public class BuscarProductoPanel extends javax.swing.JPanel {
 
     public Producto getProducto() {
         if (d != null) {
-            return d;
+            if (d.getId() > 0) {
+                return d;
+            }
         }
         return null;
     }

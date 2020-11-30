@@ -267,14 +267,15 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="msgPanel1" min="-2" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="total" max="32767" attributes="0"/>
                                   <Component id="jLabel3" min="-2" pref="26" max="-2" attributes="0"/>
                               </Group>
+                              <Component id="msgPanel1" min="-2" pref="35" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="theButton2" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="12" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -307,7 +308,6 @@
                 <Component class="igu.util.buttons.TheButton" name="theButton2">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="CERRAR VENTA DEL CLIENTE PARA INICIAR NUEVA VENTA"/>
-                    <Property name="actionCommand" type="java.lang.String" value="CERRAR VENTA DEL CLIENTE PARA INICIAR NUEVA VENTA"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="theButton2ActionPerformed"/>
