@@ -48,6 +48,10 @@ public class VentaLineaData {
                 if (rs.next()) {
                     rsId = rs.getInt(1); // select tk, max(id)  from venta_lineas
                     //System.out.println("rs.getInt(rsId): " + rsId);
+                    // soy sullon local
+                    //
+                    System.out.println("saul rs.getInt(rsId): " + rsId);
+                    
                 }
                 rs.close();
             }
