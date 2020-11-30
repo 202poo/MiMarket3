@@ -42,6 +42,7 @@ public class ClienteData {
         } catch (SQLException ex) {
             //System.err.println("create:" + ex.toString());
             log.log(Level.SEVERE, "create", ex);
+            log.log(Level.SEVERE, "create2", ex);
         }
         return rsId;
     }
