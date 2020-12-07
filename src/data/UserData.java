@@ -22,6 +22,7 @@ public class UserData {
     static ErrorLogger log = new ErrorLogger(UserData.class.getName());
 
     public static int create(User d) {
+
         int rsId = 0;
         String[] returns = {"id"};
         String sql = "INSERT INTO users(rol, pin, username) "
@@ -30,11 +31,12 @@ public class UserData {
         try {
             ps = cn.prepareStatement(sql, returns);
             ps.setDouble(++i, d.getRol());
+          //  d.encriptarPass();
             ps.setString(++i, d.getPin());
             ps.setString(++i, d.getUsername());
 
             rsId = ps.executeUpdate();// 0 no o 1 si commit
-            try (ResultSet rs = ps.getGeneratedKeys()) {
+            try ( ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
                     rsId = rs.getInt(1); // select tk, max(id)  from users
                     //System.out.println("rs.getInt(rsId): " + rsId);
@@ -60,6 +62,7 @@ public class UserData {
         try {
             ps = cn.prepareStatement(sql);
             ps.setDouble(++i, d.getRol());
+          //  d.encriptarPass();
             ps.setString(++i, d.getPin());
             ps.setString(++i, d.getUsername());
             ps.setInt(++i, d.getId());
@@ -146,25 +149,32 @@ public class UserData {
 
     public static User getByUsernameAndPin(String username, String pin) {
         User d = new User();
-
-        String sql = "SELECT * FROM users WHERE username = ? and  pin = ? ";
-        int i = 0;
+        String sql = "SELECT * FROM users WHERE username = ?  ";
         try {
             ps = cn.prepareStatement(sql);
-            ps.setString(++i, username);
-            ps.setString(++i, pin);
+            ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 d.setId(rs.getInt("id"));
 
                 d.setRol(rs.getInt("rol"));
-               // d.setPin(rs.getString("pin"));
+                d.setPin(rs.getString("pin"));
                 d.setUsername(rs.getString("username"));
 
             }
         } catch (SQLException ex) {
             log.log(Level.SEVERE, "getByPin", ex);
         }
-        return d;
+      //  try {
+       //     d.desencriptarPass();
+      //      System.out.println("pin decrip:"+ d.getPin());
+       // } catch (Exception exp) {
+         //   System.err.println("error en decrip:"+ exp);
+        //}
+        
+        if (pin.equals(d.getPin())) {
+            return d;
+        }
+        return null;
     }
 }

@@ -1,6 +1,6 @@
 package entities;
 
-//import util.PasswordED;
+import util.PasswordED;
 
 /**
  *
@@ -9,14 +9,13 @@ package entities;
 public class User {
 
     private int id;
-    private int rol;//admin 1, cajero 2, vendedor 3
-    private String pin; //contraseña
-    private String username; //nick
+    private int rol;
+    private String pin;
+    private String username;
     
     private String salt;
     //user.setClave(String.valueOf(this.txtPassword.getPassword())); 
     //user.encriptarPass();
-    /*
     public void encriptarPass()
     {
         StringBuilder sb = new StringBuilder(this.id+this.username.length()
@@ -31,7 +30,7 @@ public class User {
         PasswordED ep = new PasswordED(this.salt);           
         String desEncrypted  = ep.decrypt(this.pin);
         return  desEncrypted;
-    }*/
+    }
 
     public int getId() {
         return id;
