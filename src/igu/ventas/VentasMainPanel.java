@@ -5,8 +5,10 @@
  */
 package igu.ventas;
 
-
 import igu.ChangePanel;
+import igu.Login;
+import static igu.MainFrame.mainPanel;
+import igu.Validate;
 import igu.ventas.clientes.ClientesPanel;
 import igu.ventas.productos.ProductosPanel;
 import igu.ventas.ventas.VentasPanel;
@@ -23,7 +25,12 @@ public class VentasMainPanel extends javax.swing.JPanel {
      */
     public VentasMainPanel() {
         initComponents();
-        new ChangePanel(workPanel, new VentasPanel());
+        //new ChangePanel(workPanel, new VentasPanel());
+        if (new Validate().comprobar()) {
+            new ChangePanel(workPanel, new VentasPanel());
+        } else {
+            new ChangePanel(mainPanel, new Login());
+        }
     }
 
     /**
@@ -219,7 +226,12 @@ public class VentasMainPanel extends javax.swing.JPanel {
 
     private void ventasButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ventasButtonActionPerformed
         // TODO add your handling code here:
-        new ChangePanel(workPanel, new VentasPanel());
+        //new ChangePanel(workPanel, new VentasPanel());
+        if (new Validate().comprobar()) {
+            new ChangePanel(workPanel, new VentasPanel());
+        } else {
+            new ChangePanel(mainPanel, new Login());
+        }
         /*  if (new Validate().comprobar()) {
 
         } else {
@@ -241,7 +253,7 @@ public class VentasMainPanel extends javax.swing.JPanel {
     private void clientesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientesButtonActionPerformed
         // TODO add your handling code here:
         new ChangePanel(workPanel, new ClientesPanel());
-        
+
         if (this.clientesButton.isSelected()) {
             this.clientesButton.setColorNormal(new Color(204, 204, 204));
 
@@ -259,7 +271,7 @@ public class VentasMainPanel extends javax.swing.JPanel {
         this.ventasButton.setSelected(true);
         this.clientesButton.setSelected(false);
         this.paramsButton.setSelected(false);
-         this.clientesButton2.setSelected(false);
+        this.clientesButton2.setSelected(false);
 
     }//GEN-LAST:event_ventasButtonMousePressed
 
@@ -268,7 +280,7 @@ public class VentasMainPanel extends javax.swing.JPanel {
         this.clientesButton.setSelected(true);
         this.ventasButton.setSelected(false);
         this.paramsButton.setSelected(false);
-         this.clientesButton2.setSelected(false);
+        this.clientesButton2.setSelected(false);
 
     }//GEN-LAST:event_clientesButtonMousePressed
 
@@ -285,26 +297,25 @@ public class VentasMainPanel extends javax.swing.JPanel {
         this.paramsButton.setSelected(true);
         this.ventasButton.setSelected(false);
         this.clientesButton.setSelected(false);
-         this.clientesButton2.setSelected(false);
+        this.clientesButton2.setSelected(false);
     }//GEN-LAST:event_paramsButtonMousePressed
 
     private void paramsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paramsButtonActionPerformed
         // TODO add your handling code here:
-        
+
         new ChangePanel(workPanel, new ProductosPanel());
-        
+
         if (this.paramsButton.isSelected()) {
             this.paramsButton.setColorNormal(new Color(204, 204, 204));
 
             this.ventasButton.setColorNormal(new Color(239, 238, 244));
             this.clientesButton.setColorNormal(new Color(239, 238, 244));
             this.clientesButton2.setColorNormal(new Color(239, 238, 244));
-            
 
         } else {
             this.paramsButton.setColorNormal(new Color(239, 238, 244));
         }
-        
+
     }//GEN-LAST:event_paramsButtonActionPerformed
 
     private void clientesButton2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientesButton2MousePressed
@@ -313,8 +324,8 @@ public class VentasMainPanel extends javax.swing.JPanel {
         this.ventasButton.setSelected(false);
         this.clientesButton.setSelected(false);
         this.clientesButton2.setSelected(true);
-       
-        
+
+
     }//GEN-LAST:event_clientesButton2MousePressed
 
     private void clientesButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientesButton2ActionPerformed

@@ -9,9 +9,9 @@ package entities;
 public class User {
 
     private int id;
-    private int rol;
-    private String pin;
-    private String username;
+    private int rol;//admin 1, cajero 2, vendedor 3
+    private String pin; //contraseña
+    private String username; //nick
     
     private String salt;
     //user.setClave(String.valueOf(this.txtPassword.getPassword())); 

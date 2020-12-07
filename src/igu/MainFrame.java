@@ -18,7 +18,12 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
-        new ChangePanel(mainPanel, new VentasMainPanel());
+       // if (new Validate().comprobar()) {
+            new ChangePanel(mainPanel, new VentasMainPanel());
+        //} else {
+       //     new ChangePanel(mainPanel, new Login());
+      //  }
+        //new ChangePanel(mainPanel, new VentasMainPanel());
     }
 
     /**
@@ -135,7 +140,12 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void theButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_theButton2ActionPerformed
         // TODO add your handling code here:
-        new ChangePanel(mainPanel, new VentasMainPanel());
+        //new ChangePanel(mainPanel, new VentasMainPanel());
+        // if (new Validate().comprobar()) {
+            new ChangePanel(mainPanel, new VentasMainPanel());
+        //} else {
+       //     new ChangePanel(mainPanel, new Login());
+       // }
     }//GEN-LAST:event_theButton2ActionPerformed
 
     /**
