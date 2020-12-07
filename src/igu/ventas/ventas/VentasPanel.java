@@ -9,6 +9,7 @@ import data.ClienteData;
 import data.VentaData;
 import entities.Cliente;
 import entities.Venta;
+import igu.Validate;
 import igu.util.tables.TableCellNumber;
 import java.awt.event.ItemEvent;
 import java.text.DecimalFormat;
@@ -53,6 +54,8 @@ public class VentasPanel extends javax.swing.JPanel {
      */
     public VentasPanel() {
         initComponents();
+        userId.setText(Validate.userId+"");
+        
         clientes = ClienteData.listCmb("");
         clientesComboxModel = new DefaultComboBoxModel(clientes.toArray());
         jComboBox1.setModel(clientesComboxModel);
@@ -150,6 +153,7 @@ public class VentasPanel extends javax.swing.JPanel {
         total = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         theButton2 = new igu.util.buttons.TheButton();
+        userId = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -248,7 +252,7 @@ public class VentasPanel extends javax.swing.JPanel {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 899, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -271,6 +275,8 @@ public class VentasPanel extends javax.swing.JPanel {
             }
         });
 
+        userId.setText("userId");
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -282,9 +288,13 @@ public class VentasPanel extends javax.swing.JPanel {
                         .addComponent(msgPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(theButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(theButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(203, 203, 203)))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(userId)
+                    .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(16, 16, 16))
         );
         jPanel6Layout.setVerticalGroup(
@@ -297,7 +307,9 @@ public class VentasPanel extends javax.swing.JPanel {
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(msgPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(theButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(theButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(userId))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
@@ -469,5 +481,6 @@ public class VentasPanel extends javax.swing.JPanel {
     private igu.util.buttons.TheButton theButton1;
     private igu.util.buttons.TheButton theButton2;
     private javax.swing.JLabel total;
+    private javax.swing.JLabel userId;
     // End of variables declaration//GEN-END:variables
 }

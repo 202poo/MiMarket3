@@ -10,6 +10,9 @@ package igu;
  * @author Asullom
  */
 public class Validate {
+    
+    //definiendo variables de sesión
+    
     public static boolean isPin = false;
     public static int userId = 0;
     

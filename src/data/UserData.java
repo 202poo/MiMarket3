@@ -144,21 +144,21 @@ public class UserData {
         return d;
     }
 
-    public static User getByPinAndRol(String pin, String rol) {
+    public static User getByUsernameAndPin(String username, String pin) {
         User d = new User();
 
-        String sql = "SELECT * FROM users WHERE pin = ? and  rol = ? ";
+        String sql = "SELECT * FROM users WHERE username = ? and  pin = ? ";
         int i = 0;
         try {
             ps = cn.prepareStatement(sql);
+            ps.setString(++i, username);
             ps.setString(++i, pin);
-            ps.setString(++i, rol);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 d.setId(rs.getInt("id"));
 
                 d.setRol(rs.getInt("rol"));
-                d.setPin(rs.getString("pin"));
+               // d.setPin(rs.getString("pin"));
                 d.setUsername(rs.getString("username"));
 
             }
