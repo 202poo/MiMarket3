@@ -21,8 +21,15 @@ public class UserData {
     static PreparedStatement ps;
     static ErrorLogger log = new ErrorLogger(UserData.class.getName());
 
-    public static int create(User d) {
-
+    public static int create(User d) throws Exception { //throws Exception
+        //no permitir duplicar el username
+        User veri = getByUsername(d.getUsername());
+        if (veri != null) {
+            if (veri.getUsername().equals(d.getUsername())) {
+                throw new Exception("A user with that email already exists:");
+            }
+        }
+        
         int rsId = 0;
         String[] returns = {"id"};
         String sql = "INSERT INTO users(rol, pin, username) "
@@ -31,7 +38,13 @@ public class UserData {
         try {
             ps = cn.prepareStatement(sql, returns);
             ps.setDouble(++i, d.getRol());
-          //  d.encriptarPass();
+            try {
+                System.out.println("antes:" + d.getPin());
+                d.encriptarPass();
+                System.out.println("despues:" + d.getPin());
+            } catch (Exception ex2) {
+                log.log(Level.SEVERE, "create", ex2);
+            }
             ps.setString(++i, d.getPin());
             ps.setString(++i, d.getUsername());
 
@@ -46,6 +59,7 @@ public class UserData {
         } catch (SQLException ex) {
             //System.err.println("create:" + ex.toString());
             log.log(Level.SEVERE, "create", ex);
+            throw new Exception("Detalle:" + ex.getMessage());
         }
         return rsId;
     }
@@ -62,7 +76,11 @@ public class UserData {
         try {
             ps = cn.prepareStatement(sql);
             ps.setDouble(++i, d.getRol());
-          //  d.encriptarPass();
+            try {
+                d.encriptarPass();
+            } catch (Exception ex2) {
+                log.log(Level.SEVERE, "create", ex2);
+            }
             ps.setString(++i, d.getPin());
             ps.setString(++i, d.getUsername());
             ps.setInt(++i, d.getId());
@@ -165,14 +183,41 @@ public class UserData {
         } catch (SQLException ex) {
             log.log(Level.SEVERE, "getByPin", ex);
         }
-      //  try {
-       //     d.desencriptarPass();
-      //      System.out.println("pin decrip:"+ d.getPin());
-       // } catch (Exception exp) {
-         //   System.err.println("error en decrip:"+ exp);
-        //}
-        
+        try {
+            System.out.println("dbantes:" + d.getPin());
+            d.desencriptarPass();
+            System.out.println("dbdespues:" + d.getPin());
+        } catch (Exception ex2) {
+            log.log(Level.SEVERE, "create", ex2);
+        }
+
         if (pin.equals(d.getPin())) {
+            return d;
+        }
+        return null;
+    }
+
+    public static User getByUsername(String username) {
+        User d = new User();
+        boolean ban=false;
+        String sql = "SELECT * FROM users WHERE username = ?  ";
+        try {
+            ps = cn.prepareStatement(sql);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ban=true;
+                d.setId(rs.getInt("id"));
+
+                d.setRol(rs.getInt("rol"));
+                d.setPin(rs.getString("pin"));
+                d.setUsername(rs.getString("username"));
+
+            }
+        } catch (SQLException ex) {
+            log.log(Level.SEVERE, "getByUsername", ex);
+        }
+        if(ban){
             return d;
         }
         return null;

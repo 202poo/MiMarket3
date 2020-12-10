@@ -1,6 +1,8 @@
 package entities;
 
-import util.PasswordED;
+import java.nio.charset.StandardCharsets;
+import util.EncryptorAesGcmPassword;
+
 
 /**
  *
@@ -13,23 +15,15 @@ public class User {
     private String pin;
     private String username;
     
-    private String salt;
-    //user.setClave(String.valueOf(this.txtPassword.getPassword())); 
-    //user.encriptarPass();
-    public void encriptarPass()
+    public void encriptarPass() throws Exception
     {
-        StringBuilder sb = new StringBuilder(this.id+this.username.length()
-                +this.rol);
-        this.salt = sb.reverse().append(this.rol).toString();
-        PasswordED ep = new PasswordED(this.salt);
-        this.pin = ep.encrypt(this.pin);        
+        this.pin=EncryptorAesGcmPassword.encrypt(this.pin.getBytes(StandardCharsets.UTF_8), "");
     }
     
-    public String desencriptarPass()
-    {
-        PasswordED ep = new PasswordED(this.salt);           
-        String desEncrypted  = ep.decrypt(this.pin);
-        return  desEncrypted;
+    public void desencriptarPass() throws Exception
+    {          
+        String desEncrypted  = EncryptorAesGcmPassword.decrypt(this.pin, "");
+        this.pin=desEncrypted;
     }
 
     public int getId() {
@@ -64,13 +58,6 @@ public class User {
         this.username = username;
     }
 
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
 
 
 
